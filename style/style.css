@@ -1,0 +1,416 @@
+*{
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+.container {
+    width: 1317px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 1440px) {
+    .container {
+        width: 91.5%;
+    }
+}
+
+.category-btns {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: unset;
+    overflow-x: scroll;
+}
+
+.category-btns::-webkit-scrollbar {
+    width: 0px;
+    transition: all 0s ease;
+    padding: 0;
+}
+
+/* .category-btns::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #9795A5;
+    transition: all 0s ease;
+}
+
+.category-btns::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #F6F6FA; */
+
+.category-btns-ttl {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #0E0E0E;
+    margin-right: 50px;
+    white-space: nowrap;
+}
+
+/* ****************************** */
+/* Sidebar style */
+
+
+.sidebar {
+    margin: 0px 30px 0 0;
+}
+
+@media screen and (max-width: 760px) {
+    .sidebar {
+       display: none;
+    }
+}
+
+.sidebar-item-link {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #088A06;
+}
+
+.sidebar-item-link i {
+    margin-right: 20px;
+}
+
+.sidebar-profile-icon {
+    display: inline-block;
+    background-image: url("../media/avatar-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-category-icon {
+    display: inline-block;
+    background-image: url("../media/category-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-home-icon {
+    display: inline-block;
+    background-image: url("../media/home-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-category-dropdown {
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+
+.sidebar-category-dropdown-link {
+    padding: 10px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #088A06;
+}
+
+.sidebar-category-dropdown-link i {
+    margin-right: 20px;
+}
+
+.sidebar-seeds-icon {
+    display: inline-block;
+    background-image: url("../media/seeds-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+.sidebar-fertilizer-icon {
+    display: inline-block;
+    background-image: url("../media/fertilizer-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+.sidebar-new-plant-icon {
+    display: inline-block;
+    background-image: url("../media/new-plant-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+.sidebar-gardening-tools-icon {
+    display: inline-block;
+    background-image: url("../media/gardening-tools-icon.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 20px;
+}
+
+
+
+/* ***************************************************** */
+
+/* Products style */
+
+.products {
+    width: 75%;
+}
+
+@media screen and (max-width: 1200px) {
+    .products {
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 760px) {
+    .products {
+        width: 100%;
+    }
+}
+
+.products-wrapper {
+    width: 100%;
+}
+
+.products-inner {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(4,1fr);
+}
+
+@media only screen and (max-width: 1200px) {
+    .products-inner {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+
+@media only screen and (max-width: 980px) {
+    .products-inner {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .products-inner {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .products-inner {
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+
+.products-item {
+    border: 1px solid #0C6862;
+    height: 340px;
+    width: 100%;
+    border-radius: 18px;
+    background-color: #FFFFFF;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.products-item-ttl {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    margin-bottom: 30px;
+}
+
+.products-item-content {
+    margin-top: 25px;
+}
+
+.products-item-image {
+    width: 100%;
+    height: 140px;
+    border-radius: 18px;
+}
+.products-item-image img {
+    width: 100%;
+    height: 140px;
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+.products-rating {
+    display: flex;
+    flex-direction: row;
+}
+
+.products-item-rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.products-item-rating span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #6C7AA0;
+}
+
+
+.rating span {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: #000000;
+}
+
+.star {
+    width: 15px;
+    height: 15px;
+    background-image: url("../media/star-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.products-item-quantity {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.products-item-quantity span {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+
+.products-item-prices {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+
+.old-price {
+    display: inline-block;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    text-decoration-line: line-through;
+    color: #000000;
+}
+
+.new-price {
+    display: inline-block;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    text-align: center;
+    color: #FF2E00;
+
+}
+
+.products-item-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.more-btn {
+    background-color: #088A06;
+    width: 47%;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.basket-btn {
+    background-color: #088A06;
+    width: 49px;
+    height: 33px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* ********************************* */
+
+.order-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 90vh;
+
+}
+
+.order-success-ttl {
+    margin: 50px 0 100px 0;
+}
+
+.order-success-btn {
+    font-style: normal;
+    font-weight: 800;
+    font-size: 20px;
+    line-height: 23px;
+    letter-spacing: 0.045em;
+    color: #FFFFFF;
+    width: 300px;
+    height: 56px;
+    background: #088A06;
+    border-radius: 40px;
+    margin: 100px 0 150px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
