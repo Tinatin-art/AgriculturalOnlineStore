@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../style/header.css">
     <link rel="stylesheet" href="../../style/style.css">
+    <link rel="stylesheet" href="../../style/auth.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,5 +32,30 @@
             </div>
         </div>
     </header>
+    <main class="main">
+        <div class="container">
+            <div class="main-wrapper">
+                <div class="nav">
+                    <div class="callcenter-image">
+                        Консультация
+                        <img src="../../media/callcenter-icon.svg" alt="callcenter">
+                    </div>
+                    <div class="nav-inner">
+                        <label for="search-input" class="search-inner">
+                            <input id="search-input" class="search-input" type="text" placeholder="Я ищу">
+                            <i class="search-icon"></i>
+                        </label>
+                        <div class="user-auth-btn">
+                            <a class="user-auth-link" href="/signin">Войти</a>
+                            <a class="user-auth-link" href="/logout">Выйти</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+    </main>
 </body>
 </html>
