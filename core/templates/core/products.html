@@ -25,7 +25,7 @@
                 </span>
                 <div class="sidebar-category-dropdown">
                     {% for category in categories %}
-                    <a href="/?category={{category.id}}" class="sidebar-category-dropdown-link" > <i class="sidebar-seeds-icon"></i>{{category.id}}{{category.name}}</a>
+                    <a href="/?category={{category.id}}" class="sidebar-category-dropdown-link" > <i class="sidebar-seeds-icon"></i>{{category.name}}</a>
                     {% endfor %}
                 </div>
             </li>
@@ -39,7 +39,7 @@
                 {% for product in products %}
                 <div class="products-item">
                     <div class="products-item-image">
-                        <img src="https://images.hibeta.com/pictures/restorants/2023/2/23/Show_123123333.webp"  alt="">
+                        <img src="{{product.image.url}}"  alt="">
                     </div>
                     <div class="products-item-content">
                         <div class="products-item-rating">
