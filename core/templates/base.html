@@ -1,12 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../style/header.css">
-    <link rel="stylesheet" href="../../style/style.css">
-    <link rel="stylesheet" href="../../style/auth.css">
+    <link rel="stylesheet" href="{% static 'css/header.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +20,7 @@
         <div class="container">
             <div class="header-inner">
                 <div class="logo">
-                    <img src="../../media/logo-agromall.svg" alt="logo-agromall">
+                    <img src="{% static 'image/logo-agromall.svg' %}" alt="logo-agromall">
                 </div>
                 <ul class="header-contacts">
                     <li>
@@ -38,7 +40,7 @@
                 <div class="nav">
                     <div class="callcenter-image">
                         Консультация
-                        <img src="../../media/callcenter-icon.svg" alt="callcenter">
+                        <img src="{% static 'image/callcenter-icon.svg' %}" alt="callcenter">
                     </div>
                     <div class="nav-inner">
                         <label for="search-input" class="search-inner">
@@ -51,11 +53,15 @@
                         </div>
                     </div>
                 </div>
+                {% block product %}
+
+                {% endblock %}
             </div>
         </div>
         {% block content %}
 
         {% endblock %}
     </main>
+</script>
 </body>
 </html>

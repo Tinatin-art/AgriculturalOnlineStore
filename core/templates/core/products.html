@@ -1,0 +1,75 @@
+{% extends 'base.html'%}
+
+{% block product %}
+
+
+<div class="main-inner">
+    <aside class="sidebar">
+        <ul class="sidebar-inner">
+            <li class="sidebar-item">
+                <a class="sidebar-item-link" href="/">
+                    <i class="sidebar-home-icon"></i>
+                    Главная
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a class="sidebar-item-link" href="/">
+                    <i class="sidebar-profile-icon"></i>
+                    Личный кабинет
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <span class="sidebar-item-link">
+                    <i class="sidebar-category-icon"></i>
+                    Категории
+                </span>
+                <div class="sidebar-category-dropdown">
+                    {% for category in categories %}
+                    <a href="/?category={{category.id}}" class="sidebar-category-dropdown-link" > <i class="sidebar-seeds-icon"></i>{{category.id}}{{category.name}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+            
+        </ul>
+    </aside>
+    <div class="products">
+        <div class="products-wrapper">
+            <h2 class="products-item-ttl">Популярное</h2>
+            <div class="products-inner">
+                {% for product in products %}
+                <div class="products-item">
+                    <div class="products-item-image">
+                        <img src="https://images.hibeta.com/pictures/restorants/2023/2/23/Show_123123333.webp"  alt="">
+                    </div>
+                    <div class="products-item-content">
+                        <div class="products-item-rating">
+                            <div class="rating">
+                                <i class="star"></i>
+                                <span>{{product.rate}}</span>
+                            </div>
+                            <span>1000 шт</span>
+                        </div>
+                        <div class="products-item-quantity">
+                            <span>Семена</span>
+                            <span>{{product.name}}</span>
+                        </div>
+                        <div class="products-item-prices">
+                            <span class="old-price">{{product.price}} сом</span>
+                            <span class="new-price">{{product.price}} сом</span>
+                        </div>
+                        <div class="products-item-btns">
+                            <a href="/" class="more-btn">Подробнее</a>
+                            <button class="basket-btn"><img src="../../media/shopping-cart-icon.svg" alt=""></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
