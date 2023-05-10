@@ -26,6 +26,10 @@ class HomeView(View):
         return render(request, 'core/products.html', data)
     
 
+
+
+
+
 @login_required(login_url='signin/')
 
 

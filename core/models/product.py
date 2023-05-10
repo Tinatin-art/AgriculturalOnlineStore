@@ -9,6 +9,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='')
     rate = models.IntegerField(default=0)
     currency = models.CharField(max_length=10)
+    
 
     @staticmethod
     def get_all_products():

@@ -48,8 +48,12 @@
                             <i class="search-icon"></i>
                         </label>
                         <div class="user-auth-btn">
-                            <a class="user-auth-link" href="/signin">Войти</a>
+                            {% if user.is_authenticated %}
+                            <p>Welcome, {{ user.username }}</p>
                             <a class="user-auth-link" href="/logout">Выйти</a>
+                            {% else %}
+                            <a class="user-auth-link" href="/signup">Войти</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
