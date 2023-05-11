@@ -6,19 +6,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
     <link rel="stylesheet" href="{% static 'css/header.css' %}" >
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>AgroMall</title>
+
 </head>
 <body>
     <header class="header">
         <div class="container">
             <div class="header-inner">
-                <a class="logo" href="{% url 'home' %}"><img src="{% static 'image/logo-agromall.svg' %}" alt="logo-agromall"> </a>
+                <a class="logo" href="{% url 'home' %}"><img src="{% static 'image/logo-agromall.svg' %}" alt="logo-agromall"></a>
                 <ul class="header-contacts">
                     <li>
                         <a href="tel:+99670000000" class='header-contacts-link'>+99670000000</a>
@@ -27,50 +28,42 @@
                         <a href="mailto:agromall@gmail.com" class='header-contacts-link'>agromall@gmail.com</a>
                     </li>
                 </ul>
-
             </div>
         </div>
     </header>
-    <main class="main">
+    <div class="main">
         <div class="container">
-            <div class="main-wrapper">
-                <div class="nav">
-                    <div class="callcenter-image">
-                        Консультация
-                        <img src="{% static 'image/callcenter-icon.svg' %}" alt="callcenter">
-                    </div>
-                    <div class="nav-inner">
-                        <label for="search-input" class="search-inner">
-                            <input id="search-input" class="search-input" type="text" placeholder="Я ищу">
-                            <i class="search-icon"></i>
-                        </label>
-                        <div class="user-auth-btn">
-                            {% if request.user.is_authenticated %}
-                            <a href="#">Hi {{request.user | title}}</a>
-                            <a href="{% url 'logout' %}" class="user-auth-link">Logout</a>
-                            {% else %}
-                            <a href="{% url 'login' %}"  class="user-auth-link">Login</a>
-                            <a href="{% url 'signup' %}" class="user-auth-link">Register</a>
+            <div class="auth">
+                <h1 class="auth-ttl">Регистрация</h1>
+                <div class="auth-inner">
+                    <form class="auth-form" novaldiate method="POST">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="auth-up">
+                            <label class="auth-label">{{ field.label_tag }} </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <small class="error">{{ field.errors|striptags  }}</small> 
                             {% endif %}
                         </div>
+                        {% endfor %}
+                        <a class="user-auth-link" href="{% url 'login' %}">Login</a>
+                        <input type="submit" value="Register" class="auth-btn" />
+                    </form><br>
+                   
+                    <div class="auth-image">
+                        <img src="https://images.hibeta.com/pictures/restorants/2023/2/23/Show_123123333.webp" alt="">
                     </div>
                 </div>
-                {% block product %}
-
-                {% endblock %}
             </div>
         </div>
-        {% block content %}
-
-        {% endblock %}
-    </main>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-inner">
-                <p class="copyright">© 2023 AgroMall.<span>Kyrgyzstan.Bishkek</span></p>
+                <p class="copyright">© 2023 AgroMall. KYRGYZSTAN.BISHKEK</p>
             </div>
         </div>
     </footer>
-</script>
 </body>
 </html>

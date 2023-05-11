@@ -140,6 +140,20 @@
     width: 100%;
     margin-bottom: 20px;
 }
+
+.auth-up input {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #1E1E1E;
+    width: 100%;
+    padding: 15px 25px;
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 0.6px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
 .auth-input {
     font-style: normal;
     font-weight: 400;
