@@ -1,5 +1,5 @@
 {% extends 'base.html'%}
-
+{% load static %}
 {% block product %}
 
 
@@ -47,19 +47,19 @@
                                 <i class="star"></i>
                                 <span>{{product.rate}}</span>
                             </div>
-                            <span>1000 шт</span>
+                            <span>{{product.unit}} {{product.unitName}}</span>
                         </div>
                         <div class="products-item-quantity">
-                            <span>Семена</span>
+                            <span>{{product.category}}</span>
                             <span>{{product.name}}</span>
                         </div>
                         <div class="products-item-prices">
-                            <span class="old-price">{{product.price}} сом</span>
-                            <span class="new-price">{{product.price}} сом</span>
+                            <span>Цена</span>
+                            <span class="new-price">{{product.price}} {{product.currency}}</span>
                         </div>
                         <div class="products-item-btns">
                             <a href="/" class="more-btn">Подробнее</a>
-                            <button class="basket-btn"><img src="../../media/shopping-cart-icon.svg" alt=""></button>
+                            <button class="basket-btn"><img src="{% static 'image/shopping-cart-icon.svg' %}" alt=""></button>
                         </div>
                     </div>
                 </div>
