@@ -3,14 +3,18 @@ from .category import Category
 
 class Product(models.Model):
 
-    gram = "g"
-    kilograms = "kg"
-    liter = 'liter'
+    gram = "гр"
+    kilograms = "кг"
+    liter = 'литер'
+    pcs = 'шт'
+
 
     UNITNAME_CHOICES = [
-        (gram, "gram"),
-        (kilograms, "kilograms"),
-        (liter, "liter"),
+        (gram, "грамм"),
+        (kilograms, "килограмм"),
+        (liter, "литер"),
+        (pcs, "штук")
+
     ]
 
     name = models.CharField(max_length=20)
@@ -20,7 +24,7 @@ class Product(models.Model):
     rate = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     currency = models.CharField(max_length=10, default="сом")
-    productivity = models.CharField(max_length=20)
+    productivity = models.CharField(max_length=20, blank=True)
     unit = models.IntegerField(default=0)
     unitName = models.CharField(
         max_length=50,
