@@ -42,7 +42,7 @@ class HomeView(View):
 
     def get(self , request):
         # print()
-        return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
+        return HttpResponseRedirect(f'/{request.get_full_path()[1:]}')
     
 
     def get(self, request, *args, **kwargs):

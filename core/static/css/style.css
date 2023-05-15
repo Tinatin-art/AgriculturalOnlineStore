@@ -33,17 +33,6 @@
     padding: 0;
 }
 
-/* .category-btns::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: #9795A5;
-    transition: all 0s ease;
-}
-
-.category-btns::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    background-color: #F6F6FA; */
-
 .category-btns-ttl {
     font-style: normal;
     font-weight: 400;
@@ -88,7 +77,7 @@
 
 .sidebar-profile-icon {
     display: inline-block;
-    background-image: url("./media/avatar-icon.svg");
+    background-image: url("../image/avatar-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -97,7 +86,7 @@
 
 .sidebar-category-icon {
     display: inline-block;
-    background-image: url("./media/category-icon.svg");
+    background-image: url("../image/category-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -106,7 +95,7 @@
 
 .sidebar-home-icon {
     display: inline-block;
-    background-image: url("./media/home-icon.svg");
+    background-image: url("../image/home-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -142,7 +131,7 @@
 
 .sidebar-seeds-icon {
     display: inline-block;
-    background-image: url("./media/seeds-icon.svg");
+    background-image: url("../image/seeds-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -150,7 +139,7 @@
 }
 .sidebar-fertilizer-icon {
     display: inline-block;
-    background-image: url("./media/fertilizer-icon.svg");
+    background-image: url("../image/fertilizer-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -158,7 +147,7 @@
 }
 .sidebar-new-plant-icon {
     display: inline-block;
-    background-image: url("./media/new-plant-icon.svg");
+    background-image: url("../image/new-plant-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;
@@ -166,7 +155,7 @@
 }
 .sidebar-gardening-tools-icon {
     display: inline-block;
-    background-image: url("./media/gardening-tools-icon.svg");
+    background-image: url("../image/gardening-tools-icon.svg");
     background-position: center;
     background-repeat: no-repeat;
     width: 20px;

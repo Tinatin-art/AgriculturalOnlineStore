@@ -9,7 +9,7 @@ User = get_user_model()
 class Order(models.Model):
     product = models.ForeignKey(Product,
                                 on_delete=models.CASCADE)
-    customer = models.ForeignKey(User, on_delete=models.PROTECT, related_name='orders')
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.IntegerField()
     address = models.CharField(max_length=50, default='', blank=True)

@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, get_user_model
 class UserLoginForm(forms.Form):
     username = forms.CharField(label="Имя пользователя", max_length=20, widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Enter Your userName'})))
     password = forms.CharField(label="Пароль", max_length=20,  widget=forms.PasswordInput(attrs=({"class": "auth-input"})))
+   
 
     def clean(self, *args, **kwargs):
 
@@ -29,10 +30,11 @@ class RegisterForm(UserCreationForm):
     email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "auth-input", 'placeholder': 'Введите email'}))
     password1 = forms.CharField(label="Пароль",widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Введите пароль'})))
     password2=forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Подтвердите пароль'})))
-    
     class Meta:
         model = user
         fields = ('username',  'email', 'password1', 'password2', )
+
+    
 
         
     def clean(self, *args, **kwargs):

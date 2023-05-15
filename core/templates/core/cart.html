@@ -20,32 +20,28 @@
                 </tr>
             </thead>
             <tbody>
-                
                 {% for product in products %}
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
                     <td>{{product.name}}</td>
-                    <td>{{product.price|currency}}</td>
+                    <td>{{product.price}} {{product.currency}}</td>
                     <td>{{product|cart_quantity:request.session.cart}}</td>
-                    <td>{{product|price_total:request.session.cart|currency}}</td>
+                    <td>{{product|price_total:request.session.cart}}{{product.currency}}</td>
                 </tr>
-
                 {% endfor %}
-               
             </tbody>
-
             <tfoot>
                 <tr>
                     <th colspan="4"></th>
-                    <th class="" colspan="">Total</th>
-                    <th>{{products|total_cart_price:request.session.cart|currency}}</th>
+                    <th colspan="">Total</th>
+                    <th>{{products|total_cart_price:request.session.cart}} сом</th>
                 </tr>
             </tfoot>
         </table>
         <hr>
         <div class="m-3 p-3">
-            <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-info border rounded  col-lg-3 float-right">Check out</a>
+            <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn-outline-info">Check out</a>
         </div>
    </div>
 </div>
@@ -54,11 +50,11 @@
 <!-- modal -->
 
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
+          <h5 class="modal-title">
               Check Out Form
           </h5>
           <hr>
