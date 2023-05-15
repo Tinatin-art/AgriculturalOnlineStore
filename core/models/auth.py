@@ -34,6 +34,7 @@ class RegisterForm(UserCreationForm):
         model = user
         fields = ('username',  'email', 'password1', 'password2', )
 
+        
     def clean(self, *args, **kwargs):
         email=self.cleaned_data.get('email')
         email_qs = user.objects.filter(email=email)
@@ -48,3 +49,4 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError("password and confirm_password does not match")
         
         return super(RegisterForm, self).clean(*args, **kwargs)
+    

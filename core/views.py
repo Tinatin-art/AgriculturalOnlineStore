@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views import View
 from .models.product import Product
 from .models.category import Category
@@ -7,12 +7,48 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.contrib.auth import login 
-from .forms import RegisterForm
+from .models.auth import RegisterForm
+from django.views import  View
+from .models.orders import Order
 
 
 class HomeView(View):
-    def get(self, request, *args, **kwargs):
 
+    def post(self , request):
+        product = request.POST.get('product')
+        remove = request.POST.get('remove')
+        cart = request.session.get('cart')
+        if cart:
+            quantity = cart.get(product)
+            if quantity:
+                if remove:
+                    if quantity<=1:
+                        cart.pop(product)
+                    else:
+                        cart[product]  = quantity-1
+                else:
+                    cart[product]  = quantity+1
+
+            else:
+                cart[product] = 1
+        else:
+            cart = {}
+            cart[product] = 1
+
+        request.session['cart'] = cart
+        print('cart' , request.session['cart'])
+        return redirect('home')
+    
+
+    def get(self , request):
+        # print()
+        return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
+    
+
+    def get(self, request, *args, **kwargs):
+        cart = request.session.get('cart')
+        if not cart:
+            request.session['cart'] = {}
         products = Product.get_all_products()
         categories = Category.get_all_categories()
         categoryID = 'category'
@@ -30,9 +66,11 @@ class HomeView(View):
         return render(request, 'core/products.html', data)
     
 
+
 class RegisterView(FormView):
     template_name = 'users/signup.html'
     form_class = RegisterForm
+
     redirect_authenticated_user = True
     success_url = reverse_lazy('home')
     
@@ -54,3 +92,21 @@ class MyLoginView(LoginView):
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
+    
+
+class Cart(View):
+    def get(self , request):
+        ids = list(request.session.get('cart').keys())
+        products = Product.get_products_by_id(ids)
+        print(products)
+        return render(request , 'core/cart.html' , {'products' : products} )
+    
+
+class OrderView(View):
+
+
+    def get(self , request ):
+        customer = request.session.get('customer')
+        orders = Order.get_orders_by_customer(customer)
+        print(orders)
+        return render(request , 'core/orders.html'  , {'orders' : orders})

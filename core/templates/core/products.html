@@ -1,7 +1,10 @@
 {% extends 'base.html'%}
 {% load static %}
+
 {% block product %}
 
+{% load cart %}
+{% load custom_filter %}
 
 <div class="main-inner">
     <aside class="sidebar">
@@ -57,10 +60,32 @@
                             <span>Цена</span>
                             <span class="new-price">{{product.price}} {{product.currency}}</span>
                         </div>
-                        <div class="products-item-btns">
-                            <a href="/" class="more-btn">Подробнее</a>
-                            <button class="basket-btn"><img src="{% static 'image/shopping-cart-icon.svg' %}" alt=""></button>
+                    </div>
+                    <a href="/" class="more-btn">Подробнее</a>
+                    <div class="products-item-btns ">
+                        {% if product|is_in_cart:request.session.cart %}
+                        <div class="quantityButton">
+                            <form action="/#{{product.id}}" class="" method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<button type="submit" class="decreaseButton"></button>
+							</form>
+                            <div class="quantityProduct">{{product|cart_quantity:request.session.cart}}</div>
+                            <form action="/#{{product.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+                                <button type="submit" class="increaseButton"></button>
+							</form>
                         </div>
+                        {% else %}
+                        <form action="/#{{product.id}}" method="POST" class="btn-block form-control">
+                            {% csrf_token %}
+                            <input hidden type="text" name="product" value="{{product.id}}">
+                            <input type="submit" class="basket-btn form-control" value="Add to cart"/>
+                        </form>
+                        {% endif %}
+                        
                     </div>
                 </div>
                 {% endfor %}
