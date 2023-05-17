@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block product %}
+{% load cart %}
+<div class="checkout-inner">
+    <form method="post" action="{% url 'start_order' %}">
+        {% csrf_token %}
+        <div class="w-full">
+            <h1 class="checkout-title">Checkout</h1>
+
+            <div class="w-full">
+                <div class="checkout-block">
+                    <h2 class="checkout-subtitle">Shipping information</h2>
+
+                    <div class="flex space-x-6">
+                        <label class="checkout-label">
+                            <span>First name</span>
+                            <input name="first_name" type="text" class="checkout-input" value="{{ request.user.first_name }}">
+                        </label>
+
+                        <label class="checkout-label">
+                            <span>Last name</span>
+                            <input name="last_name" type="text" class="checkout-input" value="{{ request.user.last_name }}">
+                        </label>
+                    </div>
+
+                    <label class="checkout-label">
+                        <span>Address</span>
+                        <input name="address" type="text" class="checkout-input">
+                    </label>
+
+                    <div class="flex space-x-6">
+                        <label class="checkout-label">
+                            <span>Zip code</span>
+                            <input name="zipcode" type="text" class="checkout-input">
+                        </label>
+
+                        <label class="checkout-label">
+                            <span>City/Place</span>
+                            <input name="place" type="text" class="checkout-input">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkout-block">
+                    <h2 class="checkout-subtitle">Contact information</h2>
+
+                    <label class="checkout-label">
+                        <span>Email</span>
+                        <input name="email" type="email" class="checkout-input" value="{{ request.user.email }}">
+                    </label>
+
+                    <label class="checkout-label">
+                        <span>Phone</span>
+                        <input name="phone" type="phone" class="checkout-input">
+                    </label>
+                </div>
+
+                <div class="checkout-block">
+                    <h2 class="checkout-subtitle">Payment information</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-block">
+            <h2 class="checkout-subtitle">Summary</h2>
+
+            <div class="checkout-btn-wrapper">
+                <span class="font-semibold">Total</span>
+                <span>{{products|total_cart_price:request.session.cart}} сом</span>
+            </div>
+            <button class="checkout-btn">
+                Confirm checkout
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

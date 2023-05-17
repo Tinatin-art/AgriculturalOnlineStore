@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models.product import Product
 from .models.category import Category
@@ -9,7 +10,7 @@ from django.views.generic.edit import FormView
 from django.contrib.auth import login 
 from .models.auth import RegisterForm
 from django.views import  View
-from .models.orders import Order
+from .models.orders import Order, OrderItem
 
 
 class HomeView(View):
@@ -101,12 +102,36 @@ class Cart(View):
         print(products)
         return render(request , 'core/cart.html' , {'products' : products} )
     
+    def cart_id(request):
+        cart = request.session.session_key
+        if not cart:
+            cart = request.session.create()
+        return cart
+    
+    
+@login_required
+def checkout(request):
+    ids = list(request.session.get('cart').keys())
+    products = Product.get_products_by_id(ids)
+    return render(request, 'core/checkout.html', {'products' : products})
 
-class OrderView(View):
+@login_required
+def myaccount(request):
+    return render(request, 'core/myaccount.html')
 
+def start_order(request):
 
-    def get(self , request ):
-        customer = request.session.get('customer')
-        orders = Order.get_orders_by_customer(customer)
-        print(orders)
-        return render(request , 'core/orders.html'  , {'orders' : orders})
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        zipcode = request.POST.get('zipcode')
+        place = request.POST.get('place')
+        phone = request.POST.get('phone')
+
+        order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, phone=phone, address=address, zipcode=zipcode, place=place)
+        print(order)
+        return redirect('myaccount')
+
+    return redirect('cart')

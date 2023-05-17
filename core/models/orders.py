@@ -1,25 +1,36 @@
+from itertools import product
+from django.contrib.auth.models import User
 from django.db import models
-from .product import Product
-from .auth import RegisterForm
-import datetime
-from django.contrib.auth import get_user_model
 
-User = get_user_model()
+from .product import Product
 
 class Order(models.Model):
-    product = models.ForeignKey(Product,
-                                on_delete=models.CASCADE)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
+    ORDERED = 'ordered'
+    SHIPPED = 'shipped'
+
+    STATUS_CHOICES = (
+        (ORDERED, 'Ordered'),
+        (SHIPPED, 'Shipped')
+    )
+
+    user = models.ForeignKey(User, related_name='orders', blank=True, null=True, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    zipcode = models.CharField(max_length=255)
+    place = models.CharField(max_length=255)
+    phone = models.CharField(max_length=255)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    paid = models.BooleanField(default=False)
+    paid_amount = models.IntegerField(blank=True, null=True)
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=ORDERED)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='items', on_delete=models.CASCADE)
     price = models.IntegerField()
-    address = models.CharField(max_length=50, default='', blank=True)
-    phone = models.CharField(max_length=50, default='', blank=True)
-    date = models.DateField(default=datetime.datetime.today)
-    status = models.BooleanField(default=False)
-
-    def placeOrder(self):
-        self.save()
-
-    @staticmethod
-    def get_orders_by_customer(customer_id):
-        return Order.objects.filter(customer=customer_id).order_by('-date')
+    quantity = models.IntegerField(default=1)
