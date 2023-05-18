@@ -16,7 +16,7 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-item-link" href="/">
+                <a class="sidebar-item-link" href="{% url 'myaccount' %}">
                     <i class="sidebar-profile-icon"></i>
                     Личный кабинет
                 </a>
@@ -61,7 +61,7 @@
                             <span class="new-price">{{product.price}} {{product.currency}}</span>
                         </div>
                     </div>
-                    <a href="/" class="more-btn">Подробнее</a>
+                    <a href="{% url 'detail' product.id %}" class="more-btn">Подробнее</a>
                     <div class="products-item-btns ">
                         {% if product|is_in_cart:request.session.cart %}
                         <div class="quantityButton">

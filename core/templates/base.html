@@ -9,10 +9,11 @@
     <link rel="stylesheet" href="{% static 'css/header.css' %}" >
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <title>AgroMall</title>
+    <title> {% block title %} {% endblock %}</title>
 </head>
 <body>
     <header class="header">
@@ -63,6 +64,9 @@
                 {% endblock %}
             </div>
         </div>
+        {% block content %}
+
+        {% endblock %}
     </main>
     <footer class="footer">
         <div class="container">

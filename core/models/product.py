@@ -5,14 +5,14 @@ class Product(models.Model):
 
     gram = "гр"
     kilograms = "кг"
-    liter = 'литер'
+    liter = 'литр'
     pcs = 'шт'
 
 
     UNITNAME_CHOICES = [
         (gram, "грамм"),
         (kilograms, "килограмм"),
-        (liter, "литер"),
+        (liter, "литр"),
         (pcs, "штук")
 
     ]
@@ -47,4 +47,8 @@ class Product(models.Model):
             return Product.objects.filter(category=category_id)
         else:
             return Product.get_all_products()
+        
+
+    def get_absolute_url(self):
+        return f'/detail/{self.id}'
   
