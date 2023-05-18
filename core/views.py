@@ -37,7 +37,6 @@ class HomeView(View):
             cart[product] = 1
 
         request.session['cart'] = cart
-        print('cart' , request.session['cart'])
         return redirect('home')
     
 
@@ -99,14 +98,8 @@ class Cart(View):
     def get(self , request):
         ids = list(request.session.get('cart').keys())
         products = Product.get_products_by_id(ids)
-        print(products)
-        return render(request , 'core/cart.html' , {'products' : products} )
+        return render(request , 'core/cart.html',{ 'products' : products})
     
-    def cart_id(request):
-        cart = request.session.session_key
-        if not cart:
-            cart = request.session.create()
-        return cart
     
     
 @login_required
@@ -120,6 +113,8 @@ def myaccount(request):
     return render(request, 'core/myaccount.html')
 
 def start_order(request):
+    cart = request.session.get('cart')
+    products = Product.get_products_by_id(list(cart.keys()))
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
@@ -131,7 +126,15 @@ def start_order(request):
         phone = request.POST.get('phone')
 
         order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, phone=phone, address=address, zipcode=zipcode, place=place)
-        print(order)
-        return redirect('myaccount')
+        
+        for item in products:
+            product = item
+            quantity= cart.get(str(product.id))
+            price = product.price * quantity
 
+            
+
+            item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
+ 
+        return redirect('myaccount')
     return redirect('cart')
