@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% load static %}
+{% block title %} Agromall {% endblock %}
 {% block product %}
 
 
@@ -7,20 +8,20 @@
     <aside class="sidebar">
         <ul class="sidebar-inner">
             <li class="sidebar-item">
-                <a class="sidebar-item-link" href="/">
+                <a class="sidebar-item-link" href="{% url 'home' %}">
                     <i class="sidebar-home-icon"></i>
-                    Главная
+                    Главная 
                 </a>
             </li>
             <li class="sidebar-item">
-                <a class="sidebar-item-link" href="/">
+                <a class="sidebar-item-link" href="#">
                     <i class="sidebar-profile-icon"></i>
                     Личный кабинет
                 </a>
             </li>
             <li class="sidebar-item">
-                <span class="sidebar-item-link">
-                    <i class="sidebar-category-icon"></i>
+                <span class="sidebar-item-link" alt="">
+                    <i class="sidebar-category-icon"> </i>
                     Категории
                 </span>
                 <div class="sidebar-category-dropdown">
@@ -44,23 +45,24 @@
                     <div class="products-item-content">
                         <div class="products-item-rating">
                             <div class="rating">
-                                <i class="star"></i>
+                                <i class="star"> <img src="{% static 'image/star-icon.svg' %}" alt="callcenter"> </i>
                                 <span>{{product.rate}}</span>
                             </div>
-                            <span>{{product.unit}} {{product.unitName}}</span>
+                            <span>{{product.unit}} {{ product.unitName}}</span>
                         </div>
                         <div class="products-item-quantity">
                             <span>{{product.category}}</span>
                             <span>{{product.name}}</span>
                         </div>
                         <div class="products-item-prices">
-                            <span>Цена</span>
-                            <span class="new-price">{{product.price}} {{product.currency}}</span>
+                            <span>Цена</span>    
+                            <span class="new-price">{{product.price}} сом</span>
                         </div>
                         <div class="products-item-btns">
-                            <a href="/" class="more-btn">Подробнее</a>
-                            <button class="basket-btn"><img src="{% static 'image/shopping-cart-icon.svg' %}" alt=""></button>
-                        </div>
+                            <a href="{% url 'detail' product.id %}" class="more-btn">Подробнее</a>
+                            <button class="basket-btn">
+                            <a href=""> <img src="{% static 'image/shopping-cart-icon.svg' %}" alt=""></a></button>
+                        </div> 
                     </div>
                 </div>
                 {% endfor %}

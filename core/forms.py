@@ -1,6 +1,8 @@
 from django import forms
+from django.forms import Textarea
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, get_user_model
+from .models import Comment
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(label="Имя пользователя", max_length=20, widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Enter Your userName'})))
@@ -48,3 +50,12 @@ class RegisterForm(UserCreationForm):
             raise forms.ValidationError("password and confirm_password does not match")
         
         return super(RegisterForm, self).clean(*args, **kwargs)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text',]
+    def __init__(self, *args, **kwargs):
+      super().__init__(*args, **kwargs)
+      self.fields['text'].widget = Textarea(attrs={'row':3})  

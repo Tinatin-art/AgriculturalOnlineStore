@@ -5,9 +5,13 @@ from .models.category import Category
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.views.generic.edit import FormView
+from django.views.generic import FormView, DetailView
+from django.views.generic.edit import FormMixin
 from django.contrib.auth import login 
-from .forms import RegisterForm
+from .forms import *
+from django.contrib.postgres.search import SearchQuery, SearchVector
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
 
 class HomeView(View):
@@ -54,3 +58,41 @@ class MyLoginView(LoginView):
     def form_invalid(self, form):
         messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
+    
+
+class ProductDetailView(FormMixin, DetailView):
+    model = Product
+    template_name = 'core/detail.html'
+    context_object_name = 'product'
+    form_class = CommentForm
+    object = None
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('detail', kwargs = {'pk': self.get_object().id })
+    
+    def post(self, request, *args, **kwargs):
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+    
+    def form_valid(self, form):
+        self.object = form.save(commit='False')
+        self.object.product = self.get_object()
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+def product_search(request):
+    if request.method == "POST":
+        search = request.POST['search']
+        search_result = Product.objects.filter(name__contains = search)
+        return render(request, 
+                  'core/search.html',
+                  {'search':search,
+                   'search_result' : search_result})
+    else:
+         return render(request, 
+                  'core/search.html',
+                  {})

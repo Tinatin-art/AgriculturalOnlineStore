@@ -1,11 +1,11 @@
 from django.db import models
 
 class Category(models.Model):
-    class Meta:
-        verbose_name = 'category'
-        verbose_name_plural = 'categories'
+    categoryName = models.CharField('Название категории', max_length=20, unique=True)
 
-    categoryName = models.CharField(max_length=20, unique=True)
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
     def __str__(self):
         return self.categoryName
@@ -13,3 +13,7 @@ class Category(models.Model):
     @staticmethod
     def get_all_categories():
         return Category.objects.all()
+    
+    # def get_absolute_url(self):
+    #     return f'/detail/{self.id}'
+  
