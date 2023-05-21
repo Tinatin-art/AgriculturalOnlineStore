@@ -81,7 +81,7 @@
                         <form action="/#{{product.id}}" method="POST" class="btn-block form-control">
                             {% csrf_token %}
                             <input hidden type="text" name="product" value="{{product.id}}">
-                            <input type="submit" class="basket-btn form-control" value="Add to cart"/>
+                            <input type="submit" class="basket-btn form-control" value="В корзину"/>
                         </form>
                         {% endif %}
                         
