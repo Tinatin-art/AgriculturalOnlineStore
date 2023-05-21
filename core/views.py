@@ -140,6 +140,7 @@ def start_order(request):
             item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
  
         request.session['cart'] = {}
+
         return redirect('myaccount')
     return redirect('cart')
 
@@ -167,16 +168,3 @@ class ProductDetailView(FormMixin, DetailView):
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
-
-def product_search(request):
-    if request.method == "POST":
-        search = request.POST['search']
-        search_result = Product.objects.filter(name__contains = search)
-        return render(request, 
-                  'core/search.html',
-                  {'search':search,
-                   'search_result' : search_result})
-    else:
-         return render(request, 
-                  'core/search.html',
-                  {})

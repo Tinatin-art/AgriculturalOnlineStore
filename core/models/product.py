@@ -31,7 +31,15 @@ class Product(models.Model):
         choices=UNITNAME_CHOICES,
         default=gram,
     )
-    
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+
+
+    def __str__(self):
+        return self.name
+
+
     @staticmethod
     def get_products_by_id(ids):
         return Product.objects.filter(id__in=ids)
@@ -39,7 +47,6 @@ class Product(models.Model):
     @staticmethod
     def get_all_products():
         return Product.objects.all()
-    
 
     @staticmethod
     def get_all_products_by_categoryId(category_id):

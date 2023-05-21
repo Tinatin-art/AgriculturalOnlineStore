@@ -12,5 +12,4 @@ urlpatterns = [
     path('start_order/', start_order, name='start_order'),
     path('myaccount/', myaccount, name='myaccount'),
     path('detail/<int:pk>', ProductDetailView.as_view(), name='detail'),
-    path('search/', product_search, name='product_search'),
 ]

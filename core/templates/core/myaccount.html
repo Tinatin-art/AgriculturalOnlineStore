@@ -15,26 +15,29 @@
     {% for order in request.user.orders.all %}
     <div class="w-full order-block">
         <h4 class="order-id">Order id: {{ order.id }}</h4>
-
-        {% for item in order.items.all %}
-        <div class="order-item">
-            <img class="order-image" src="{{ item.product.image.url }}">
-            <div class="order-content">
-                <div class="order-ttl-wrapper">
-                    <a href="#" class="order-name">{{ item.product.name }}</a>
-                    <p class="product-price">{{ item.product.price }} сом</p>
-                </div>
-                <hr>
-                <div class="product-quantity">
-                    Quantity: {{ item.quantity }}
+       
+        
+        <div class="w-full">
+            {% for item in order.items.all %}
+            <div class="order-item">
+                <img class="order-image" src="{{ item.product.image.url }}">
+                <div class="order-content">
+                    <div class="order-ttl-wrapper">
+                        <a href="#" class="order-name">{{ item.product.name }}</a>
+                        <p class="product-price">{{ item.product.price }} сом</p>
+                    </div>
+                    <hr>
+                    <div class="product-quantity">
+                        Quantity: {{ item.quantity }}
+                    </div>
                 </div>
             </div>
+            <div>
+                <p class="text-lg">Date: {{ order.created_at }}</p>
+                <p class="text-lg">Total: {{ item.price }} сом</p>
+            </div>
+            {% endfor %}
         </div>
-        <div>
-            <p class="text-lg">Date: {{ order.created_at }}</p>
-            <p class="text-lg">Total: {{ item.price }} сом</p>
-        </div>
-        {% endfor %}
     </div>
     {% endfor %}
 </div>

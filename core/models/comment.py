@@ -16,7 +16,7 @@ class Comment(models.Model):
                             on_delete=models.CASCADE,
                             related_name='user', null=True,
                             blank=True, )
-    text = models.TextField(verbose_name='Отзыв')
+    text = models.TextField(verbose_name='Ваш отзыв')
     created_on = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=False)
@@ -39,4 +39,4 @@ class CommentForm(forms.ModelForm):
         fields = ['text',]
     def __init__(self, *args, **kwargs):
       super().__init__(*args, **kwargs)
-      self.fields['text'].widget = Textarea(attrs={'row':3})  
+      self.fields['text'].widget = Textarea(attrs={'row':3, 'cols': 10,"class": "comments__textarea", 'placeholder': 'Оставьте комментарий'})  

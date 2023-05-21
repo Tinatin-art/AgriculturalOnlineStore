@@ -6,17 +6,17 @@
 {% load custom_filter %}
 <div class="container">
    <div class="cart-inner">
-        <p class="cart-title">Your Cart</p>
+        <p class="cart-title">Ваша корзина</p>
         <hr>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Sno.</th>
-                    <th>Image</th>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
+                    <th>Номер заказа</th>
+                    <th>Фото</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Количество</th>
+                    <th>Сумма</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,14 +34,14 @@
             <tfoot>
                 <tr>
                     <th colspan="4"></th>
-                    <th colspan="">Total</th>
+                    <th colspan="">Итого</th>
                     <th>{{products|total_cart_price:request.session.cart}} сом</th>
                 </tr>
             </tfoot>
         </table>
         <hr>
         <div class="m-3 p-3 popupbtn">
-            <a href="{% url 'checkout' %}" class="btn-outline-info">Check out</a>
+            <a href="{% url 'checkout' %}" class="btn-outline-info">Оформить заказ</a>
         </div>
    </div>
 </div>

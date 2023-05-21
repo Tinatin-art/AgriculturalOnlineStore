@@ -22,10 +22,10 @@
                 </a>
             </li>
             <li class="sidebar-item">
-                <span class="sidebar-item-link">
-                    <i class="sidebar-category-icon"></i>
+                <a class="sidebar-item-link" href="/">
+                    <i class="sidebar-home-icon"></i>
                     Категории
-                </span>
+                </a>
                 <div class="sidebar-category-dropdown">
                     {% for category in categories %}
                     <a href="/?category={{category.id}}" class="sidebar-category-dropdown-link" > <i class="sidebar-seeds-icon"></i>{{category.categoryName}}</a>
@@ -37,7 +37,6 @@
     </aside>
     <div class="products">
         <div class="products-wrapper">
-            <h2 class="products-item-ttl">Популярное</h2>
             <div class="products-inner">
                 {% for product in products %}
                 <div class="products-item">
