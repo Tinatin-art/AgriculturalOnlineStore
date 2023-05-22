@@ -661,6 +661,7 @@ th {
     padding: 20px;
     text-align: center;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .checkout-label span {
@@ -668,6 +669,18 @@ th {
     display: inline-block;
 }
 
+.my-data {
+    font-size: 24px;
+    color: #088a06;
+    margin: 0 0 20px 0;
+    font-weight: 500;
+}
+.my-datas {
+    margin: 5px 10px 5px 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-block;
+}
 /* My account */
 
 .myaccount-title {

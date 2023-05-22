@@ -4,16 +4,16 @@
 {% block product %}
 {% load cart %}
 <div>
-    <h2>My account</h2>
+    <h2 class="my-data">Мои данные</h2>
     <div>
-        <strong>Username: </strong>{{ request.user.username }}<br>
-        <strong>E-mail: </strong>{{ request.user.email }}<br>
+        <span class="my-datas">Username: </span>{{ request.user.username }}<br>
+        <span class="my-datas">E-mail: </span>{{ request.user.email }}<br>
     </div>
     <hr>
-    <h2 class="myaccount-title">My orders</h2>
+    <h2 class="myaccount-title">Мои заказы</h2>
     {% for order in request.user.orders.all %}
     <div class="w-full order-block">
-        <h4 class="order-id">Order id: {{ order.id }}</h4>
+        <h4 class="order-id">Номер заказа: {{ order.id }}</h4>
        
         
         <div class="w-full">
@@ -27,13 +27,13 @@
                     </div>
                     <hr>
                     <div class="product-quantity">
-                        Quantity: {{ item.quantity }}
+                        Количество: {{ item.quantity }}
                     </div>
                 </div>
             </div>
             <div>
-                <p class="text-lg">Date: {{ order.created_at }}</p>
-                <p class="text-lg">Total: {{ item.price }} сом</p>
+                <p class="text-lg">Дата: {{ order.created_at }}</p>
+                <p class="text-lg">Итого: {{ item.price }} сом</p>
             </div>
             {% endfor %}
         </div>
