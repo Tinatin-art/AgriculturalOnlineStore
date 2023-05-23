@@ -599,7 +599,7 @@ th {
 /* Checkout */
 
 .checkout-inner {
-    width: 60%;
+    width: 75%;
     padding: 20px;
 }
 
@@ -742,4 +742,8 @@ th {
     margin-bottom: 20px;
     font-weight: 400;
     font-size: 14px;
+}
+
+.myaccount {
+    width: 75%;
 }

@@ -1,99 +1,69 @@
 {% extends 'base.html'%}
 {% load static %}
 
-{% block product %}
+{% block content %}
 
 {% load cart %}
 {% load custom_filter %}
 
-<div class="main-inner">
-    <aside class="sidebar">
-        <ul class="sidebar-inner">
-            <li class="sidebar-item">
-                <a class="sidebar-item-link" href="/">
-                    <i class="sidebar-home-icon"></i>
-                    Главная
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-item-link" href="{% url 'myaccount' %}">
-                    <i class="sidebar-profile-icon"></i>
-                    Личный кабинет
-                </a>
-            </li>
-            <li class="sidebar-item">
-                <a class="sidebar-item-link" href="/">
-                    <i class="sidebar-home-icon"></i>
-                    Категории
-                </a>
-                <div class="sidebar-category-dropdown">
-                    {% for category in categories %}
-                    <a href="/?category={{category.id}}" class="sidebar-category-dropdown-link" > <i class="sidebar-seeds-icon"></i>{{category.categoryName}}</a>
-                    {% endfor %}
+
+<div class="products">
+    <div class="products-wrapper">
+        <div class="products-inner">
+            {% for product in products %}
+            <div class="products-item">
+                <div class="products-item-image">
+                    <img src="{{product.image.url}}" alt="">
                 </div>
-            </li>
-            
-        </ul>
-    </aside>
-    <div class="products">
-        <div class="products-wrapper">
-            <div class="products-inner">
-                {% for product in products %}
-                <div class="products-item">
-                    <div class="products-item-image">
-                        <img src="{{product.image.url}}"  alt="">
+                <div class="products-item-content">
+                    <div class="products-item-rating">
+                        <div class="rating">
+                            <i class="star"></i>
+                            <span>{{product.rate}}</span>
+                        </div>
+                        <span>{{product.unit}} {{product.unitName}}</span>
                     </div>
-                    <div class="products-item-content">
-                        <div class="products-item-rating">
-                            <div class="rating">
-                                <i class="star"></i>
-                                <span>{{product.rate}}</span>
-                            </div>
-                            <span>{{product.unit}} {{product.unitName}}</span>
-                        </div>
-                        <div class="products-item-quantity">
-                            <span>{{product.category}}</span>
-                            <span>{{product.name}}</span>
-                        </div>
-                        <div class="products-item-prices">
-                            <span>Цена</span>
-                            <span class="new-price">{{product.price}} {{product.currency}}</span>
-                        </div>
+                    <div class="products-item-quantity">
+                        <span>{{product.category}}</span>
+                        <span>{{product.name}}</span>
                     </div>
-                    <a href="{% url 'detail' product.id %}" class="more-btn">Подробнее</a>
-                    <div class="products-item-btns ">
-                        {% if product|is_in_cart:request.session.cart %}
-                        <div class="quantityButton">
-                            <form action="{% url 'home' %}" class="" method="post">
-								{% csrf_token %}
-								<input hidden type="text" name='product' value='{{product.id}}'>
-								<input hidden type="text" name='remove' value='True'>
-								<button type="submit" class="decreaseButton"></button>
-							</form>
-                            <div class="quantityProduct">{{product|cart_quantity:request.session.cart}}</div>
-                            <form action="{% url 'home' %}" class="col-2 " method="post">
-								{% csrf_token %}
-								<input hidden type="text" name='product' value='{{product.id}}'>
-                                <button type="submit" class="increaseButton"></button>
-							</form>
-                        </div>
-                        {% else %}
-                        <form action="{% url 'home' %}" method="POST" class="btn-block form-control">
+                    <div class="products-item-prices">
+                        <span>Цена</span>
+                        <span class="new-price">{{product.price}} {{product.currency}}</span>
+                    </div>
+                </div>
+                <a href="{% url 'detail' product.id %}" class="more-btn">Подробнее</a>
+                <div class="products-item-btns ">
+                    {% if product|is_in_cart:request.session.cart %}
+                    <div class="quantityButton">
+                        <form action="{% url 'home' %}" class="" method="post">
                             {% csrf_token %}
-                            <input hidden type="text" name="product" value="{{product.id}}">
-                            <input type="submit" class="basket-btn form-control" value="В корзину"/>
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input hidden type="text" name='remove' value='True'>
+                            <button type="submit" class="decreaseButton"></button>
                         </form>
-                        {% endif %}
-                        
+                        <div class="quantityProduct">{{product|cart_quantity:request.session.cart}}</div>
+                        <form action="{% url 'home' %}" class="col-2 " method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <button type="submit" class="increaseButton"></button>
+                        </form>
                     </div>
+                    {% else %}
+                    <form action="{% url 'home' %}" method="POST" class="btn-block form-control">
+                        {% csrf_token %}
+                        <input hidden type="text" name="product" value="{{product.id}}">
+                        <input type="submit" class="basket-btn form-control" value="В корзину" />
+                    </form>
+                    {% endif %}
+
                 </div>
-                {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
 
 
+
 {% endblock %}
-
-

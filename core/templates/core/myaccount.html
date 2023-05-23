@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 
-{% block product %}
+{% block content %}
 {% load cart %}
-<div>
+<div class="myaccount">
     <h2 class="my-data">Мои данные</h2>
     <div>
         <span class="my-datas">Username: </span>{{ request.user.username }}<br>

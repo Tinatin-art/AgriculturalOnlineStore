@@ -1,10 +1,9 @@
 .detail {
-    width: 80%;
+    width: 75%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 20px;
-    margin: 0 auto 150px auto;
     border: 1px solid #fcfcfc;
     background: #fcfcfc;
     border-radius: 6px;

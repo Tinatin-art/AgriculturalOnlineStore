@@ -33,6 +33,8 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = user
         fields = ('username',  'email', 'password1', 'password2', )
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
 
     
 

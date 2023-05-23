@@ -11,15 +11,15 @@ class Comment(models.Model):
     product = models.ForeignKey(Product,
                             on_delete=models.CASCADE,
                             related_name='comments', null=True,
-                            blank=True, )
+                            blank=True, verbose_name="Продукт" )
     user = models.ForeignKey(User, 
                             on_delete=models.CASCADE,
                             related_name='user', null=True,
-                            blank=True, )
+                            blank=True, verbose_name="Пользователь" )
     text = models.TextField(verbose_name='Ваш отзыв')
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(auto_now_add=True, verbose_name="Дата")
     updated = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=False, verbose_name="Статус")
 
     class Meta:
         verbose_name = 'Комментария'

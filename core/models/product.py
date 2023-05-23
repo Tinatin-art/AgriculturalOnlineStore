@@ -17,12 +17,12 @@ class Product(models.Model):
 
     ]
 
-    name = models.CharField(max_length=20)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
+    name = models.CharField(max_length=20, verbose_name="Продукт")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1, verbose_name="Категория")
     description = models.CharField(max_length=200, default='', null=True, blank=True)
     image = models.ImageField(upload_to='')
     rate = models.IntegerField(default=0)
-    price = models.IntegerField(default=0)
+    price = models.IntegerField(default=0, verbose_name="Цена")
     currency = models.CharField(max_length=10, default="сом")
     productivity = models.CharField(max_length=20, blank=True)
     unit = models.IntegerField(default=0)

@@ -13,10 +13,13 @@ class AdminProduct(admin.ModelAdmin):
 class AdminCategory(admin.ModelAdmin):
     list_display =  ['categoryName']
 
+class AdminOrder(admin.ModelAdmin):
+    list_display =  ['user', 'first_name', 'email', 'address', 'place', 'phone', 'status']
+
 
 admin.site.register(Product, AdminProduct)
 admin.site.register(Category, AdminCategory)
-admin.site.register(Order)
+admin.site.register(Order, AdminOrder)
 
 @admin.register(Comment)
 
