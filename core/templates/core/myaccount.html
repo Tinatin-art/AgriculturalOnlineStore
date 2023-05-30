@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+{% block product %}
+{% load cart %}
+<div>
+    <h2>My account</h2>
+    <div>
+        <strong>Username: </strong>{{ request.user.username }}<br>
+        <strong>E-mail: </strong>{{ request.user.email }}<br>
+    </div>
+    <hr>
+    <h2 class="myaccount-title">My orders</h2>
+    {% for order in request.user.orders.all %}
+    <div class="w-full order-block">
+        <h4 class="order-id">Order id: {{ order.id }}</h4>
+       
+        
+        <div class="w-full">
+            {% for item in order.items.all %}
+            <div class="order-item">
+                <img class="order-image" src="{{ item.product.image.url }}">
+                <div class="order-content">
+                    <div class="order-ttl-wrapper">
+                        <a href="#" class="order-name">{{ item.product.name }}</a>
+                        <p class="product-price">{{ item.product.price }} сом</p>
+                    </div>
+                    <hr>
+                    <div class="product-quantity">
+                        Quantity: {{ item.quantity }}
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p class="text-lg">Date: {{ order.created_at }}</p>
+                <p class="text-lg">Total: {{ item.price }} сом</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
