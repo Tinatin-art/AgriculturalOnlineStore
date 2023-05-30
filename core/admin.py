@@ -5,7 +5,7 @@ from .models.comment import Comment
 
 class AdminProduct(admin.ModelAdmin):
     list_display = ['name', 'price','category',]
-    list_filter = ('rate', 'price', 'category')
+    list_filter = ('price', 'category')
     search_fields = ('name', 'category')
 
 

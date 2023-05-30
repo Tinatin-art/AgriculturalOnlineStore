@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load static i18n %}
 
 {% block title %} {{ product.name }} {% endblock %}
 
@@ -31,6 +32,10 @@
                                       <td>13.03.23</td>
                                   </tr>
                                   <tr>
+                                    <th>Рейтинг:</th>
+                                    <td> <i class="star"> <img src="{% static 'image/star-icon.svg' %}" alt="callcenter"> </i> </td>
+                                  </tr>
+                                  <tr>
                                       <th>Категории:</th>
                                       <td><a href="/?category={{category.id}}">
                                         {{ product.category }}</a> 
@@ -51,7 +56,7 @@
                                   <tr>
                                     <th>Цена:</th>
                                     <td>{{product.price}} {{product.currency}}</td>
-                                  </tr>
+                                  </tr>      
                             </tbody>
                          </table>
                     </div>
@@ -61,19 +66,11 @@
                 <div class="comments__item-inner"> 
                     <div class='comments'>
                         <div class="comments__total-count"> Отзывы
-                            <!-- <div class="sort-in-row">Сортировать по:
-                                <ul>
-                                    <li class=" date active-desc"><span>дате</span></li>
-                                    <li class=" rating"><span>рейтингу</span></li>
-                                    <li class=" useful"><span>полезности</span></li>
-                                </ul>
-                            </div> -->
                             <div> Всего:  <span>
                                 {% with product.comments.count as total_comments %}
                                 {{ total_comments }}
                                 {% endwith %}</span>  
                             </div>
-
                         </div>
                         <div class='comments__input-wrapper'>
                             <div class='comments__input-wrapper'>
@@ -83,19 +80,21 @@
                                         <span class="comments__user-name">{{ comment.user }} </span> <span class="date"> {{ comment.created_on }} </span> 
                                         <p class='comments__item-textarea' 
                                         type="text" 
-                                        readonly> {{ comment.text }} </p>
+                                        readonly> {{ comment.text }} </p>  
+                                        {% if user.is_authenticated and comment.user == user %}
+                                            <form method="POST" action="{% url 'comment_delete' comment.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="">Удалить</button>
+                                            </form>
+                                        {% endif %} 
                                     </li>
-                                    {% empty %}
-                                        
+                                    {% empty %}                                        
                                     {% endfor %}    
                                  </ul>                                   
                                   
                             </div>
                         </div> <br>
-                                                       
-                    
                         {% if request.user.is_authenticated %}
-
                             <form action="" id="add_form" method="post" >
                                 {% csrf_token %}
                                 {{ form.as_p }}

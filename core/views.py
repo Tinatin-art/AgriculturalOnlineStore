@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import render, redirect
 from django.views import View
 from .models.product import Product
@@ -5,13 +6,15 @@ from .models.category import Category
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.views.generic import FormView, DetailView
-from django.views.generic.edit import FormMixin
+from django.views.generic import FormView, DetailView, ListView
+from django.views.generic.edit import FormMixin, DeleteView
 from django.contrib.auth import login 
 from .forms import *
 from django.contrib.postgres.search import SearchQuery, SearchVector
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpResponse
+from urllib.parse import urlencode
 
 
 class HomeView(View):
@@ -59,7 +62,6 @@ class MyLoginView(LoginView):
         messages.error(self.request,'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
     
-
 class ProductDetailView(FormMixin, DetailView):
     model = Product
     template_name = 'core/detail.html'
@@ -82,17 +84,24 @@ class ProductDetailView(FormMixin, DetailView):
         self.object.product = self.get_object()
         self.object.user = self.request.user
         self.object.save()
-        return super().form_valid(form)
+        return super().form_valid(form)    
 
-def product_search(request):
-    if request.method == "POST":
-        search = request.POST['search']
-        search_result = Product.objects.filter(name__contains = search)
-        return render(request, 
-                  'core/search.html',
-                  {'search':search,
-                   'search_result' : search_result})
-    else:
-         return render(request, 
-                  'core/search.html',
-                  {})
+class CommentDeleteView(DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        product_id = self.object.product_id 
+        return reverse_lazy('detail', kwargs={'pk': product_id})
+
+class Search(ListView):
+    template_name = 'core/search.html'
+    paginate_by = 3
+    
+    def get_queryset(self):
+        return Product.objects.filter(name__icontains=self.request.GET.get("q"))
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        query_param = self.request.GET.get("q")
+        context["q"] = urlencode({'q': query_param}) + '&'
+        return context

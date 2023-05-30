@@ -43,8 +43,7 @@
                     </div>
                     <div class="nav-inner">
                         <label for="search-input" class="search-inner"> <i class="search-icon"></i>
-                            <form class="search-input" method = "POST" action="{% url 'product_search' %}">
-                                {% csrf_token %}
+                            <form class="search-input" method = "" action="#">
                                 <input id="search-input"  type="text" placeholder="Я ищу" name="search">
                                 <button class="search-icon" > <img src="{% static 'image/search-icon.svg' %}" alt=""> </button>
                             </form>
@@ -52,7 +51,7 @@
                         </label>
                         <div class="user-auth-btn">
                             {% if request.user.is_authenticated %}
-                            <a href="#">Hi {{request.user | title}}</a>
+                            <a href="#">{{request.user | title}}</a>
                             <a href="{% url 'logout' %}" class="user-auth-link">Выйти</a>
                             {% else %}
                             <a href="{% url 'login' %}"  class="user-auth-link">Войти</a>
