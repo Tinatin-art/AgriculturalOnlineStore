@@ -1,8 +1,40 @@
 from django import forms
 from django.forms import Textarea
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, get_user_model
-from .models import Comment
+from django.contrib.auth import get_user_model
+
+user = get_user_model()
+
+from .models import Comment, CustomUser
+
+
+class CustomUserCreationForm(UserCreationForm):
+    username = forms.CharField(label="Логин", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите логин'})))
+    name = forms.CharField(label="Имя", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите имя'})))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "auth-input", 'placeholder': 'Введите email'}))
+    #image = forms.ImageField(label="Аватар", widget=forms.FileInput(attrs=({"class": "auth-input", 'placeholder': 'Выберите фотографию'})))
+    password1 = forms.CharField(label="Пароль",widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Введите пароль'})))
+    password2=forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Подтвердите пароль'})))
+
+    class Meta:
+        model = CustomUser
+        # fields = '__all__'
+        fields = ('username', 'name', 'gender', 'email')
+
+class CustomUserChangeForm(UserChangeForm):
+    username = forms.CharField(label="Логин", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите логин'})))
+    name = forms.CharField(label="Имя", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите имя'})))
+    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class": "auth-input", 'placeholder': 'Введите email'}))
+    #image = forms.ImageField(label="Аватар", widget=forms.FileInput(attrs=({"class": "auth-input", 'placeholder': 'Выберите фотографию'})))
+    #password1 = forms.CharField(label="Пароль",widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Введите пароль'})))
+    #password2=forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Подтвердите пароль'})))
+
+    class Meta:
+        model = CustomUser
+        #fields = '__all__'
+        fields = ('username', 'name', 'surname', 'gender', 'email', 'region', 'city', 'address',)
+
 
 class UserLoginForm(forms.Form):
     username = forms.CharField(label="Имя пользователя", max_length=20, widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Enter Your userName'})))

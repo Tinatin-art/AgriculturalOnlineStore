@@ -1,0 +1,211 @@
+{% load static %}
+{% load cart %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <title> {% block title %} {{ user.name }} {% endblock %}</title>
+</head>
+<body>
+    <div class="main-content">
+        <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
+          <div class="container-fluid">
+            <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="{% url 'home' %}">На главную страницу</a>
+            <!-- User -->
+            <ul class="navbar-nav align-items-center d-none d-md-flex">
+              <li class="nav-item dropdown">
+                <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <div class="media align-items-center">
+                    <span class="avatar avatar-sm rounded-circle">
+                      <img alt="Image placeholder" src="{% if user.image %}{{ user.image.url }}{% else %}
+                      {% static 'image/no_image.svg' %}{% endif %}">
+                    </span>
+                    <div class="media-body ml-2 d-none d-lg-block">
+                      <span class="mb-0 text-sm  font-weight-bold">{{user.name}} {{user.surname}}</span>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-- Header -->
+        <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-image: url('../image/logo-agromall.svg'); background-size: cover; background-position: center top;">
+          <!-- Mask -->
+          <span class="mask bg-gradient-default opacity-8"></span>
+          <!-- Header container -->
+          <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+              <div class="col-lg-7 col-md-10">
+                <h1 class="display-2 text-white"> Добро пожаловать  {%if user.name %}{{user.name}} {%else%} {{user.username}} {%endif%}</h1>
+                <p class="text-white mt-0 mb-5"> </p>
+                <!-- <a href="{% url 'profile_update' user.id %}" class="btn btn-info">Изменить данные</a> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--7">
+          <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+              <div class="card card-profile shadow">
+                <div class="row justify-content-center">
+                  <div class="col-lg-3 order-lg-2">
+                    <div class="card-profile-image">
+                      <a href="#">
+                        <img src="{% if user.image %}{{ user.image.url }}{% else %}
+                        {% static 'image/no_image.svg' %}{% endif %}" class="rounded-circle">
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                  <div class="d-flex justify-content-between">
+                    <a href="{% url 'profile_update' user.id %}" class="btn btn-sm btn-info mr-4">Изменить</a>
+                    <a href="#" class="btn btn-sm btn-info float-right">Покупки</a>
+                  </div>
+                </div>
+                <div class="card-body pt-0 pt-md-4">
+                  <div class="row">
+                    <div class="col">
+                      <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                        <div>
+                          <span class="heading">22</span>
+                          <span class="description">Покупки</span>
+                        </div>
+                        <div>
+                          <span class="heading">10</span>
+                          <span class="description">Корзина</span>
+                        </div>
+                        <div>
+                          <span class="heading">89</span>
+                          <span class="description">Комментарии</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <h3>
+                      {{user.name}}<span class="font-weight-light">  </span>
+                    </h3>
+                    <div class="h5 font-weight-300">
+                      <i class="ni location_pin mr-2"></i>{{user.country}}
+                    </div>
+                    <div class="h5 mt-4">
+                      <i class="ni business_briefcase-24 mr-2"></i> {{user.city}}
+                    </div>
+                    <div>
+                      <i class="ni education_hat mr-2"></i> {{user.phone}} 
+                    </div><hr>
+                    <!-- <hr class="my-4">
+                    <p>{{user.email}}</p> -->
+                    <!-- <a href="#">Show more</a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-8 order-xl-1">
+              <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h3 class="mb-0">Мой профиль</h3>
+                    </div>
+                    <div class="col-4 text-right">
+                      <!-- <a href="#!" class="btn btn-sm btn-primary">Настройки</a> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                    <h6 class="heading-small text-muted mb-4">Данные пользователя</h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-username">Логин</label>
+                            <input readonly type="text" id="input-username" class="form-control form-control-alternative" placeholder="Логин" value="{{user.username}}">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group">
+                            <label class="form-control-label" for="input-email">Email адрес</label>
+                            <input readonly type="email" id="input-email" class="form-control form-control-alternative" placeholder="{{user.email}}">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-first-name">Имя</label>
+                            <input readonly type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="Имя" value="{{user.name}}">
+                          </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-last-name">Фамилия</label>
+                            <input readonly type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Фамилия" value="{{user.surname}}">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr class="my-4">
+                    <!-- Orders -->
+                    <h6 class="heading-small text-muted mb-4"> Покупки </h6>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group focused">
+                            {% for order in request.user.orders.all %}
+                            <div class="w-full order-block">
+                                <h4 class="order-id">Заказы: {{ order.id }}</h4>
+                                <div class="w-full">
+                                    {% for item in order.items.all %}
+                                    <div class="order-item">
+                                        <img class="order-image" src="{{ item.product.image.url }}">
+                                        <div class="order-content">
+                                            <div class="order-ttl-wrapper">
+                                                <a href="#" class="order-name">{{ item.product.name }}</a>
+                                                <p class="product-price">{{ item.product.price }} сом</p>
+                                            </div>
+                                            <hr>
+                                            <div class="product-quantity">
+                                                Количество: {{ item.quantity }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="text-lg">Дата: {{ order.created_at }}</p>
+                                        <p class="text-lg">Всего: {{ item.price }} сом</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <footer class="footer">
+      <div class="container">
+          <div class="footer-inner">
+              <p class="copyright">© 2023 AgroMall.<span>Kyrgyzstan.Bishkek</span></p>
+          </div>
+      </div>
+  </footer>
+
+</body>
+</html>

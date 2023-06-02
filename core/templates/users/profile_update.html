@@ -6,13 +6,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
     <link rel="stylesheet" href="{% static 'css/header.css' %}" >
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Изменить профиль</title>
+
 </head>
 <body>
     <header class="header">
@@ -30,32 +31,34 @@
             </div>
         </div>
     </header>
-    <main class="main">
+    <div class="main">
         <div class="container">
             <div class="auth">
-                <h1 class="auth-ttl">Добро пожаловать!</h1>
+                <h1 class="auth-ttl">Мой профиль</h1>
                 <div class="auth-inner">
-                    <form method="POST" class="auth-form" novalidate>
+                    <form class="auth-form" inputmode="file" method="post">
                         {% csrf_token %}
                         {% for field in form %}
                         <div class="auth-up">
                             <label class="auth-label">{{ field.label_tag }} </label>
                             {{ field }}
                             {% if field.errors %}
-	        		            <small>{{ field.errors|striptags  }}</small> 
-	        	            {% endif %}
+                                <small class="error">{{ field.errors|striptags  }}</small> 
+                            {% endif %}
                         </div>
                         {% endfor %}
-                        <a class="user-auth-link" href="{%url 'signup'%}">Регистрация</a>
-                        <button type="submit" value="Login" class="auth-btn">Войти</button> <br>   
+                        <button type="submit" class="auth-btn"> Изменить </button> <br>
+                        <a href="{% url 'profile' user.id %}">{{request.user.username | title}}</a>
                     </form><br>
+                   
                     <div class="auth-image">
-                        <img src="https://images.hibeta.com/pictures/restorants/2023/2/23/Show_123123333.webp" alt="auth-image">
+                        <img src="{% if user.image %}{{ user.image.url }}{% else %}
+                        {% static 'image/no_image.svg' %}{% endif %}" alt="auth-image">
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
     <footer class="footer">
         <div class="container">
             <div class="footer-inner">

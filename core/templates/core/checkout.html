@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block product %}
+{% load cart %}
+<div class="checkout-inner">
+    <form method="post" action="{% url 'start_order' %}">
+        {% csrf_token %}
+        <div class="w-full">
+            <h1 class="checkout-title">Оформить заказ</h1>
+
+            <div class="w-full">
+                <div class="checkout-block">
+                    <h2 class="checkout-subtitle">Информация о доставке</h2>
+
+                    <div class="flex space-x-6">
+                        <label class="checkout-label">
+                            <span>Имя</span>
+                            <input name="first_name" type="text" class="checkout-input" value="{{ request.user.first_name }}">
+                        </label>
+
+                        <label class="checkout-label">
+                            <span>Фамилия</span>
+                            <input name="last_name" type="text" class="checkout-input" value="{{ request.user.last_name }}">
+                        </label>
+                    </div>
+
+                    <label class="checkout-label">
+                        <span>Адрес</span>
+                        <input name="address" type="text" class="checkout-input">
+                    </label>
+
+                    <div class="flex space-x-6">
+                        <label class="checkout-label">
+                            <span>Почтовый индекс</span>
+                            <input name="zipcode" type="text" class="checkout-input">
+                        </label>
+
+                        <label class="checkout-label">
+                            <span>Город</span>
+                            <input name="place" type="text" class="checkout-input">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="checkout-block">
+                    <h2 class="checkout-subtitle">Контактные данные</h2>
+
+                    <label class="checkout-label">
+                        <span>Электронная почта</span>
+                        <input name="email" type="email" class="checkout-input" value="{{ request.user.email }}">
+                    </label>
+
+                    <label class="checkout-label">
+                        <span>Номер телефона</span>
+                        <input name="phone" type="phone" class="checkout-input">
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="checkout-block">
+            <div class="checkout-btn-wrapper">
+                <span class="font-semibold">Итого</span>
+                <span>{{products|total_cart_price:request.session.cart}} сом</span>
+            </div>
+            <button class="checkout-btn">
+                Подтвердите заказ
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
