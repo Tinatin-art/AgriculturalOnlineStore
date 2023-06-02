@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Search {% endblock %}
+
+{%block content %}
+    <hr>
+    
+   
+    {% if results %}
+        <ul>
+            {% for product in results %}
+                <div>
+                    <div>{{forloop.counter}}</div>
+                    <div><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></div>
+                    <div>{{product.name}}</div>
+                    <div>{{product.price}} {{product.currency}}</div>
+                </div>
+               
+                <li>{{product_name}}</li>
+                {% endfor %}
+        </ul>
+    {% else %}
+        <p>Не найдено ваш запрос</p>
+    {% endif %}
+
+{% endblock %}

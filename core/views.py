@@ -14,6 +14,7 @@ from django.views.generic import FormView, DetailView
 from django.views import  View
 from .models.orders import Order, OrderItem
 from .models.comment import CommentForm
+from django.db.models import Q
 
 
 class HomeView(View):
@@ -168,3 +169,27 @@ class ProductDetailView(FormMixin, DetailView):
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
+    
+def search_list(request):
+    if request.method == 'GET':
+        query= request.GET.get('q')
+
+        submitbutton= request.GET.get('submit')
+
+        if query is not None:
+            lookups= Q(name__icontains=query) | Q(description__icontains=query)
+
+            results= Product.objects.filter(lookups).distinct()
+
+            context={'results': results,
+                     'submitbutton': submitbutton}
+
+            return render(request, 'core/search_list.html', context)
+
+        else:
+            return render(request, 'core/search.html')
+
+    else:
+        return render(request, 'core/search.html')
+
+
