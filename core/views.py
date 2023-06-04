@@ -14,7 +14,7 @@ from .models.auth import RegisterForm
 from django.views.generic import FormView, DetailView, DeleteView, CreateView, UpdateView
 from django.views import View
 from .models.orders import Order, OrderItem
-from .models.comment import CommentForm
+from .models.comment import CommentForm, Comment
 from django.conf import settings
 import uuid
 from django.core.mail import send_mail
@@ -225,6 +225,12 @@ class ProductDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
 
+class CommentDeleteView(DeleteView):
+    model = Comment
+
+    def get_success_url(self):
+        product_id = self.object.product_id 
+        return reverse_lazy('detail', kwargs={'pk': product_id})
 
 def search_list(request):
     if request.method == 'GET':

@@ -791,3 +791,15 @@ th {
     text-align: center;
     display: block;
 }
+
+.rating-inner {
+    width: 75px;
+    height: 40px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #088a06;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 20px;
+}

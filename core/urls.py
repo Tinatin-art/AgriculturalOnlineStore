@@ -12,6 +12,7 @@ urlpatterns = [
     path('start_order/', start_order, name='start_order'),
     path('myaccount/', myaccount, name='myaccount'),
     path('detail/<int:pk>', ProductDetailView.as_view(), name='detail'),
+    path('detail/<int:pk>/delete', CommentDeleteView.as_view(), name='comment_delete'),
     path('token/' , token_send , name="token_send"),
     path('verify/<auth_token>/' , verify , name="verify"),
     path('error/' , error_page , name="error"),
