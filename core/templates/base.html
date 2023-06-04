@@ -41,9 +41,11 @@
                         <img src="{% static 'image/callcenter-icon.svg' %}" alt="callcenter">
                     </div>
                     <div class="nav-inner">
-                        <label for="search-input" class="search-inner">
-                            <input id="search-input" class="search-input" type="text" placeholder="Я ищу">
-                            <i class="search-icon"></i>
+                        <label for="search-input" class="search-inner"> <i class="search-icon"></i>
+                            <form class="search-form" method="GET" action="{% url 'search_list' %}">
+                                <input id="search-icon" type="search" placeholder="Поиск..." class="search-input"  name="q" aria-label='Search'/>
+                                <button class= "search-icon" img src="{% static 'image/search-icon.svg' %}" alt=""> </button>
+                            </form>
                         </label>
                         <div class="user-auth-btn">
                             <a class="user-auth-link" href="{% url 'cart' %}">Корзина 

@@ -11,11 +11,12 @@
     </div>
     <hr>
     <h2 class="myaccount-title">Мои заказы</h2>
+    {% if request.user.orders.all %}
     {% for order in request.user.orders.all %}
     <div class="w-full order-block">
         <h4 class="order-id">Номер заказа: {{ order.id }}</h4>
-       
-        
+
+
         <div class="w-full">
             {% for item in order.items.all %}
             <div class="order-item">
@@ -39,5 +40,8 @@
         </div>
     </div>
     {% endfor %}
+    {% else %}
+    <p>Вы еще ничего не заказали</p>
+    {% endif %}
 </div>
 {% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Search {% endblock %}
+
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+
+
+
+{% if results %}
+<div class="products">
+    <div class="products-wrapper">
+        <div class="products-inner">
+            {% for product in results %}
+            <div class="products-item">
+                <div class="products-item-image">
+                    <img src="{{product.image.url}}" alt="">
+                </div>
+                <div class="products-item-content">
+                    <div class="products-item-rating">
+                        <div class="rating">
+                            <i class="star"></i>
+                            <span>{{product.rate}}</span>
+                        </div>
+                        <span>{{product.unit}} {{product.unitName}}</span>
+                    </div>
+                    <div class="products-item-quantity">
+                        <span>{{product.category}}</span>
+                        <span>{{product.name}}</span>
+                    </div>
+                    <div class="products-item-prices">
+                        <span>Цена</span>
+                        <span class="new-price">{{product.price}} {{product.currency}}</span>
+                    </div>
+                </div>
+                <a href="{% url 'detail' product.id %}" class="more-btn">Подробнее</a>
+                <div class="products-item-btns ">
+                    {% if product|is_in_cart:request.session.cart %}
+                    <div class="quantityButton">
+                        <form action="{% url 'home' %}" class="" method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <input hidden type="text" name='remove' value='True'>
+                            <button type="submit" class="decreaseButton"></button>
+                        </form>
+                        <div class="quantityProduct">{{product|cart_quantity:request.session.cart}}</div>
+                        <form action="{% url 'home' %}" class="col-2 " method="post">
+                            {% csrf_token %}
+                            <input hidden type="text" name='product' value='{{product.id}}'>
+                            <button type="submit" class="increaseButton"></button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <form action="{% url 'home' %}" method="POST" class="btn-block form-control">
+                        {% csrf_token %}
+                        <input hidden type="text" name="product" value="{{product.id}}">
+                        <input type="submit" class="basket-btn form-control" value="В корзину" />
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="products">
+    <div class="products-wrapper">
+        <div class="products-inner">
+            <p>Не найдено ваш запрос</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+
+{% endblock %}

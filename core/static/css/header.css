@@ -166,9 +166,10 @@
     position: absolute;
     top: 8px;
     right: 15px;
+    cursor: pointer;
 }
 
-.search-input {
+.search-form {
     width: 100%;
     height: 40px;
     box-sizing: border-box;
@@ -183,6 +184,12 @@
     font-size: 14px;
     line-height: 15px;
 }
+
+.search-input {
+    width: 100%;
+}
+
+
 
 .user-auth-link {
     font-style: normal;

@@ -19,6 +19,7 @@ from .models.profile import Profile
 from django.conf import settings
 import uuid
 from django.core.mail import send_mail
+from django.db.models import Q
 
 
 class HomeView(View):
@@ -223,3 +224,25 @@ class ProductDetailView(FormMixin, DetailView):
         return super().form_valid(form)
 
 
+
+def search_list(request):
+    if request.method == 'GET':
+        query= request.GET.get('q')
+
+        submitbutton= request.GET.get('submit')
+
+        if query is not None:
+            lookups= Q(name__icontains=query) | Q(description__icontains=query)
+
+            results= Product.objects.filter(lookups).distinct()
+
+            context={'results': results,
+                     'submitbutton': submitbutton}
+
+            return render(request, 'core/search_list.html', context)
+
+        else:
+            return render(request, 'core/search.html')
+
+    else:
+        return render(request, 'core/search.html')

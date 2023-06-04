@@ -15,4 +15,5 @@ urlpatterns = [
     path('token/' , token_send , name="token_send"),
     path('verify/<auth_token>/' , verify , name="verify"),
     path('error/' , error_page , name="error"),
+    path('search_list/', search_list, name='search_list'),
 ]

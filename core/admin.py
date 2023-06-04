@@ -16,15 +16,14 @@ class AdminCategory(admin.ModelAdmin):
 class AdminOrder(admin.ModelAdmin):
     list_display =  ['user', 'first_name', 'email', 'address', 'place', 'phone', 'status']
 
-
-admin.site.register(Product, AdminProduct)
-admin.site.register(Category, AdminCategory)
-admin.site.register(Order, AdminOrder)
-
-@admin.register(Comment)
-
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('user', 'text', 'product', 'created_on', 'active')
     list_filter = ('active', 'created_on', 'product')
     search_fields = ('user', 'email', 'body')
     actions = ['approve_comments']
+
+
+admin.site.register(Product, AdminProduct)
+admin.site.register(Category, AdminCategory)
+admin.site.register(Order, AdminOrder)
+admin.site.register(Comment, CommentAdmin)
