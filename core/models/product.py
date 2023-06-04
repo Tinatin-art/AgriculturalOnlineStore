@@ -1,5 +1,6 @@
 from django.db import models
 from .category import Category
+from django.db.models import Avg
 
 class Product(models.Model):
 
@@ -31,6 +32,7 @@ class Product(models.Model):
         choices=UNITNAME_CHOICES,
         default=gram,
     )
+
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
@@ -58,4 +60,5 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return f'/detail/{self.id}'
+    
   

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models.product import Product
@@ -11,16 +11,16 @@ from django.views.generic.edit import FormView
 from django.views.generic.edit import FormMixin
 from django.contrib.auth import login
 from .models.auth import RegisterForm
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, DeleteView, CreateView, UpdateView
 from django.views import View
 from .models.orders import Order, OrderItem
 from .models.comment import CommentForm
-from .models.profile import Profile
 from django.conf import settings
 import uuid
 from django.core.mail import send_mail
 from django.db.models import Q
-
+from django.db.models import Avg
+from .models.profile import Profile
 
 class HomeView(View):
 
@@ -241,8 +241,6 @@ def search_list(request):
 
             return render(request, 'core/search_list.html', context)
 
-        else:
-            return render(request, 'core/search.html')
 
-    else:
-        return render(request, 'core/search.html')
+
+

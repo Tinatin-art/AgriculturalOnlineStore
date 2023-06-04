@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate, get_user_model
 
 class UserLoginForm(forms.Form):
@@ -36,9 +36,6 @@ class RegisterForm(UserCreationForm):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    
-
-        
     def clean(self, *args, **kwargs):
         email=self.cleaned_data.get('email')
         email_qs = user.objects.filter(email=email)
