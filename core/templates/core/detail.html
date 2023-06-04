@@ -36,18 +36,23 @@
                             <form action="/#{{product.id}}" method="POST" class="btn-block form-control">
                                 {% csrf_token %}
                                 <input hidden type="text" name="product" value="{{product.id}}">
-                                <input type="submit" class="basket-btn form-control" value="Add to cart"/>
+                                <input type="submit" class="basket-btn form-control" value="Добавить в корзину"/>
                             </form>
                             {% endif %}
-                            
                         </div>
                     </div> 
                 </div>
                 <div class="detail__product-wrapper">
                     <div>
-                        <h1 class='product__title'>{{ product.name }}</h1>
+                        <h1 class='product__title'>{{ product.name }}</h1> 
                         <table class='feature'>
                             <tbody>
+                                <tr>
+                                    <th> <div class="rating"> Рейтинг: </th>   
+                                      <td> <i class="star"></i>
+                                        <span>{{  product.average_rating  }}</span>
+                                      </td>
+                                </tr>
                                 <tr>
                                     <th>Категория:</th>
                                     <td><a href="/?category={{category.id}}">
@@ -70,6 +75,25 @@
                                     <th>Цена:</th>
                                     <td>{{product.price}} {{product.currency}}</td>
                                 </tr>
+                                {% if request.user.is_authenticated %}
+                                <tr>
+                                    <th>Оцените продукт:</th>
+                                    <td><form method="post" action="{% url 'rate_product' product.id %}">
+                                            {% csrf_token %}
+                                            <div>
+                                                <select name="rating"> 
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5" selected>5</option>
+                                                </select>   
+                                            </div>
+                                           <button type="submit" class="comments__add-btn">Оценить</button> 
+                                         </form>
+                                    </td>
+                                </tr>
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
@@ -83,8 +107,7 @@
                             {% endwith %}</span>
                     </div>
                 </div>
-                <div class='comments__item'>
-              
+                <div class='comments__item'>             
                     <ul class="w-full">
                         {% for comment in product.comments.all %}
                         <li class="comments__item-inner">
@@ -97,7 +120,7 @@
                                 {% if user.is_authenticated and comment.user == user %}
                                     <form method="POST" action="{% url 'comment_delete' comment.id %}">
                                         {% csrf_token %}
-                                        <button type="submit" class="">Удалить</button>
+                                        <button type="submit" class="comments__add-btn">Удалить</button>
                                     </form>
                                 {% endif %} 
                             </div>
@@ -105,10 +128,8 @@
                         {% empty %}
                         {% endfor %}
                     </ul>
-                
-                    <div class="haha">
-                
-                        {% if request.user.is_authenticated %}
+                    <ul>
+                    <div class="haha"> {% if request.user.is_authenticated %}
                         <form action="" id="add_form" method="post">
                             {% csrf_token %}
                             {{ form.as_p }}
@@ -116,10 +137,10 @@
                         <button class="comments__add-btn" form="add_form"> Добавить отзыв </button>
                         {% else %}
                         <p> Чтобы оставить отзыв, надо зарегистрироваться </p> <br>
-                        <a href="{% url 'signup' %}" class="comments__add-btn">Регистрация</a>
-                
+                        <a href="{% url 'signup' %}" class="comments__add-btn">Регистрация</a>    
                         {% endif %}
                     </div>
+                    </ul>
                 </div>
             </div>
         </div>

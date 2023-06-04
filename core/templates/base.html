@@ -42,19 +42,20 @@
                     </div>
                     <div class="nav-inner">
                         <label for="search-input" class="search-inner"> <i class="search-icon"></i>
-                            <form class="search-input" method = "" action="#">
-                                <input id="search-input"  type="text" placeholder="Я ищу" name="search">
-                                <button class="search-icon" > <img src="{% static 'image/search-icon.svg' %}" alt=""> </button>
+                            <form class="search-input" method="GET" action="{% url 'search_list' %}">
+                                <input id="search-icon" type="search" placeholder="Поиск..." name="q" aria-label='Search'/>
+                                <button class= "search-icon"  alt=""> </button>
                             </form>
-                            
                         </label>
                         <div class="user-auth-btn">
                             {% if request.user.is_authenticated %}
-                            <a href="{% url 'profile' user.id %}">{{request.user.username | title}}</a>
+                            <a class="user-auth-link" href="">Корзина:
+                                <span>{{request.session.cart.keys|length}}</span></a>
+                            <!-- <a href="{% url 'profile' user.id %}">{{request.user.username | title}}</a> -->
                             <a href="{% url 'logout' %}" class="user-auth-link">Выйти</a>
                             {% else %}
-                            <a href="{% url 'login' %}"  class="user-auth-link">Войти</a>
                             <a href="{% url 'signup' %}" class="user-auth-link">Регистрация</a>
+                            <a href="{% url 'login' %}"  class="user-auth-link">Войти</a>
                             {% endif %}
                         </div>
                     </div>

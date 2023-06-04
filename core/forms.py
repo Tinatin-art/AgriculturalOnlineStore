@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 
 user = get_user_model()
 
-from .models import Comment, CustomUser
+from .models import Comment, CustomUser, Rating
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -20,7 +20,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         # fields = '__all__'
-        fields = ('username', 'name', 'gender', 'email')
+        fields = ('username', 'name', 'gender', 'email',)
 
 class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(label="Логин", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите логин'})))
@@ -33,7 +33,7 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         #fields = '__all__'
-        fields = ('username', 'name', 'surname', 'gender', 'email', 'region', 'city', 'address',)
+        fields = ('username', 'name', 'surname', 'gender', 'phone', 'email', 'region', 'city', 'address',)
 
 
 class UserLoginForm(forms.Form):
@@ -56,7 +56,6 @@ class UserLoginForm(forms.Form):
             
         return super(UserLoginForm, self).clean(*args, **kwargs)
 
-user = get_user_model()
 
 class RegisterForm(UserCreationForm):
     username = forms.CharField(label="Имя пользователя", widget=forms.TextInput(attrs=({"class": "auth-input", 'placeholder': 'Введите имя'})))
@@ -65,7 +64,7 @@ class RegisterForm(UserCreationForm):
     password2=forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput(attrs=({"class": "auth-input", 'placeholder': 'Подтвердите пароль'})))
     
     class Meta:
-        model = user
+        model = CustomUser
         fields = ('username',  'email', 'password1', 'password2', )
 
     def clean(self, *args, **kwargs):
@@ -91,3 +90,9 @@ class CommentForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
       super().__init__(*args, **kwargs)
       self.fields['text'].widget = Textarea(attrs={'row':3})  
+    
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model = Rating
+        fields = ['rating']

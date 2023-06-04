@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db.models import Avg
 
 
 
@@ -32,7 +33,7 @@ class CustomUser(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True)
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['name', 'gender', 'phone']
+    REQUIRED_FIELDS = ['name', 'gender', ]
 
     def __str__(self):
         return self.name
@@ -83,11 +84,13 @@ class Product(models.Model):
     currency = models.CharField('Валюта', max_length=10, default="сом")
     productivity = models.CharField('Урожайность', max_length=20)
     unit = models.IntegerField('Количество', default=0)
-    unitName = models.CharField('Единица измерения',
+    unitName = models.CharField('Единица измерения', 
         max_length=50,
         choices=UNITNAME_CHOICES,
         default=amount, 
     )
+    average_rating = models.DecimalField('Средний рейтинг', max_digits=2, decimal_places=1, default=5)
+       
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
@@ -110,6 +113,14 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return f'/detail/{self.id}'
+    
+    def update_average_rating(self):
+        average_rating = self.rating_set.aggregate(Avg('rating')).get('rating__avg')
+        if average_rating is not None:
+            self.average_rating = round(average_rating, 1)
+        else:
+            self.average_rating = 0
+        self.save()
 
 
 
@@ -145,7 +156,7 @@ class Comment(models.Model):
 class Rating(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    rating = models.IntegerField(choices=((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'),), default=3)
+    rating = models.IntegerField(choices=((1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5'),), default=5)
     created_at =  models.DateTimeField(auto_now_add=True)
 
     class Meta:

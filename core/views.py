@@ -1,17 +1,18 @@
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views.generic import FormView, DetailView, View, CreateView, UpdateView
 from django.views.generic.edit import FormMixin, DeleteView
 from django.contrib.auth import login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.db.models import Avg
 
 
-from .models import CustomUser, Product, Category, Comment, Order, OrderItem
-from .forms import RegisterForm, CommentForm, CustomUserCreationForm, CustomUserChangeForm, UserLoginForm
+from .models import CustomUser, Product, Category, Comment, Order, OrderItem, Rating
+from .forms import  CommentForm, CustomUserCreationForm, CustomUserChangeForm, RatingForm
 
 
 class HomeView(View):
@@ -33,22 +34,6 @@ class HomeView(View):
         data['categories'] = categories
         return render(request, 'core/products.html', data)
     
-# class SignUpView(CreateView):
-#     template_name = 'users/signup.html'
-#     form_class = UserCreationForm
-#     success_url = reverse_lazy('home')
-#     redirect_authenticated_user = True
-
-#     def post(self, request, *args, **kwargs):
-#         form = UserCreationForm(request.POST)
-
-#         def form_valid(self, form):
-#             user = form.save()
-#             if user:
-#                 login(self.request, user)
-                
-#             return super(RegisterView, self).form_valid(form)
-
 class SignUpView(CreateView):
     template_name = 'users/signup.html'
     form_class = CustomUserCreationForm
@@ -122,25 +107,12 @@ class CommentDeleteView(DeleteView):
         product_id = self.object.product_id 
         return reverse_lazy('detail', kwargs={'pk': product_id})
 
-# class ProfileView(DetailView):
-#     model = CustomUser
-#     template_name = 'users/profile.html'
-#     context_object_name = 'user'
-
-#     def get_success_url(self, **kwargs):
-#         return reverse_lazy('profile', kwargs = {'pk': self.get_object().id })
 
 class ProfileView(DetailView):
     model = CustomUser
     template_name = 'users/profile.html'
     form_class = CustomUserCreationForm
     context_object_name = 'user'
-
-    # def get_object(self, queryset=None):
-    #     return self.request.user
-
-    # def get_success_url(self):
-    #     return reverse_lazy('profile',  kwargs = {'pk': self.get_object().id })
 
 
 class ProfileUpdateView(UpdateView):
@@ -187,12 +159,50 @@ def start_order(request):
             product = item
             quantity= cart.get(str(product.id))
             price = product.price * quantity
-
-            
-
             item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
  
         request.session['cart'] = {}
 
         return redirect('profile')
     return redirect('cart')
+
+class RatingCreateView(CreateView):
+    form_class = RatingForm
+    context_object_name = 'user'
+
+    def form_valid(self, form):
+        pk = self.kwargs['pk']
+        product = get_object_or_404(Product, id=pk)
+        rating = form.save(commit=False)
+        rating.user = self.request.user
+        rating.product = product
+        rating.save()
+        product.update_average_rating()  
+        return redirect('detail', pk=pk)
+    
+    def get_rating(self, product):
+        average_rating = Rating.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
+        product.average_rating = average_rating
+        product.save()
+
+def search_list(request):
+    if request.method == 'GET':
+        query= request.GET.get('q')
+
+        submitbutton= request.GET.get('submit')
+
+        if query is not None:
+            lookups= Q(name__icontains=query) | Q(description__icontains=query)
+
+            results= Product.objects.filter(lookups).distinct()
+
+            context={'results': results,
+                     'submitbutton': submitbutton}
+
+            return render(request, 'core/search_list.html', context)
+
+        else:
+            return render(request, 'core/search.html')
+
+    else:
+        return render(request, 'core/search.html')

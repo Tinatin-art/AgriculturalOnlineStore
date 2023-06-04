@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск {% endblock %}
+
+{%block content %}
+<div class="main">
+    <div class="container">
+        <div class="products">
+            <hr>
+            {% if results %}
+            <p> Найдено: {{results|length }}</p>
+                <ul>
+                    {% for product in results %}
+                        <div>
+                            <div>{{forloop.counter}}</div>
+                            <div><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></div>
+                            <p>{{product.name}} </p>
+                            <a href="{% url 'detail' product.id %}" class="">Подробнее</a>
+
+                        <li>{{product_name}}</li>
+                        {% endfor %}
+                </ul>
+            {% else %}
+                <p>Не найдено </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

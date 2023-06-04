@@ -16,4 +16,6 @@ urlpatterns = [
     path('detail/<int:pk>/delete', CommentDeleteView.as_view(), name='comment_delete'),
     path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
     path('profile/<int:pk>/update/', ProfileUpdateView.as_view(), name='profile_update'),
+    path('detail/<int:pk>/rate/', RatingCreateView.as_view(), name='rate_product'),
+    path('search_list/', search_list, name='search_list'),
 ]

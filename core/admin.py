@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Product, Category, Comment, CustomUser, Order, OrderItem
+from .models import Product, Category, Comment, CustomUser, Order, OrderItem, Rating
 
 
 class AdminProduct(admin.ModelAdmin):
@@ -25,6 +25,10 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('order', 'product', 'quantity', 'ordered')
+
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('user', 'product', 'rating', 'created_at')
 
 
 @admin.register(Comment)
