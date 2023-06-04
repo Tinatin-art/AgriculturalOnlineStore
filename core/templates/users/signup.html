@@ -38,15 +38,18 @@
                 <div class="auth-inner">
                     <form class="auth-form" novaldiate method="POST">
                         {% csrf_token %}
-                        {% for field in form %}
                         <div class="auth-up">
-                            <label class="auth-label">{{ field.label_tag }} </label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <small class="error">{{ field.errors|striptags  }}</small> 
-                            {% endif %}
+                            <label id="username" class="auth-label">Имя пользователя</label>
+                            <input type="text" id="username" class="auth-input" name="username" placeholder="Введите имя пользователя">
                         </div>
-                        {% endfor %}
+                        <div class="auth-up">
+                            <label id="email" class="auth-label">Email</label>
+                            <input type="text" id="email" class="auth-input" name="email" placeholder="Введите email">
+                        </div>
+                        <div class="auth-up">
+                            <label id="password" class="auth-label">Пароль</label>
+                            <input type="text" id="password" class="auth-input" name="password" placeholder="Введите пароль">
+                        </div>
                         <a class="user-auth-link" href="{% url 'login' %}">Login</a>
                         <input type="submit" value="Register" class="auth-btn" />
                     </form><br>

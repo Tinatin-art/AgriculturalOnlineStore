@@ -6,19 +6,24 @@ from .models.category import Category
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.views.generic.edit import FormView
 from django.views.generic.edit import FormMixin
-from django.contrib.auth import login 
+from django.contrib.auth import login
 from .models.auth import RegisterForm
 from django.views.generic import FormView, DetailView
-from django.views import  View
+from django.views import View
 from .models.orders import Order, OrderItem
 from .models.comment import CommentForm
+from .models.profile import Profile
+from django.conf import settings
+import uuid
+from django.core.mail import send_mail
 
 
 class HomeView(View):
 
-    def post(self , request):
+    def post(self, request):
         product = request.POST.get('product')
         remove = request.POST.get('remove')
         cart = request.session.get('cart')
@@ -26,12 +31,12 @@ class HomeView(View):
             quantity = cart.get(product)
             if quantity:
                 if remove:
-                    if quantity<=1:
+                    if quantity <= 1:
                         cart.pop(product)
                     else:
-                        cart[product]  = quantity-1
+                        cart[product] = quantity-1
                 else:
-                    cart[product]  = quantity+1
+                    cart[product] = quantity+1
 
             else:
                 cart[product] = 1
@@ -41,12 +46,10 @@ class HomeView(View):
 
         request.session['cart'] = cart
         return redirect('home')
-    
 
-    def get(self , request):
+    def get(self, request):
         # print()
         return HttpResponseRedirect(f'/{request.get_full_path()[1:]}')
-    
 
     def get(self, request, *args, **kwargs):
         cart = request.session.get('cart')
@@ -67,53 +70,103 @@ class HomeView(View):
         data['products'] = products
         data['categories'] = categories
         return render(request, 'core/products.html', data)
-    
+
+def register(request):
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        try:
+            if User.objects.filter(username=username).first():
+                messages.success(request, 'Username is taken.')
+                return redirect('signup')
+
+            if User.objects.filter(email=email).first():
+                messages.success(request, 'Email is taken.')
+                return redirect('signup')
+
+            user_obj = User(username=username, email=email)
+            user_obj.set_password(password)
+            user_obj.save()
+            auth_token = str(uuid.uuid4())
+            profile_obj = Profile.objects.create(
+                user=user_obj, auth_token=auth_token)
+            profile_obj.save()
+            send_mail_after_registration(email, auth_token)
+            return redirect('token_send')
+
+        except Exception as e:
+            print(e)
+
+    return render(request, 'users/signup.html')
+
+def verify(request, auth_token):
+    try:
+        profile_obj = Profile.objects.filter(auth_token=auth_token).first()
+
+        if profile_obj:
+            if profile_obj.is_verified:
+                messages.success(request, 'Your account is already verified.')
+                return redirect('login')
+            profile_obj.is_verified = True
+            profile_obj.save()
+            messages.success(request, 'Your account has been verified.')
+            return redirect('login')
+        else:
+            return redirect('error')
+    except Exception as e:
+        print(e)
+        return redirect('home')
 
 
-class RegisterView(FormView):
-    template_name = 'users/signup.html'
-    form_class = RegisterForm
+def send_mail_after_registration(email, token):
+    subject = 'Your accounts need to be verified'
+    message = f'Hi paste the link to verify your account http://127.0.0.1:8000/verify/{token}'
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = [email]
+    send_mail(subject, message, email_from, recipient_list)
 
-    redirect_authenticated_user = True
-    success_url = reverse_lazy('home')
-    
-    def form_valid(self, form):
-        user = form.save()
-        if user:
-            login(self.request, user)
-            
-        return super(RegisterView, self).form_valid(form)
-    
-    
+
+def token_send(request):
+    return render(request, 'users/token_send.html')
+
+
+def error_page(request):
+    return render(request, 'users/error.html')
+
+
 class MyLoginView(LoginView):
     template_name = 'users/login.html'
     redirect_authenticated_user = True
-    
+
     def get_success_url(self):
-        return reverse_lazy('home') 
-    
+        return reverse_lazy('home')
+
     def form_invalid(self, form):
-        messages.error(self.request,'Invalid username or password')
+        messages.error(self.request, 'Invalid username or password')
         return self.render_to_response(self.get_context_data(form=form))
-    
+
 
 class Cart(View):
-    def get(self , request):
+    def get(self, request):
         ids = list(request.session.get('cart').keys())
         products = Product.get_products_by_id(ids)
-        return render(request , 'core/cart.html',{ 'products' : products})
-    
-    
-    
+        return render(request, 'core/cart.html', {'products': products})
+
+
 @login_required
 def checkout(request):
     ids = list(request.session.get('cart').keys())
     products = Product.get_products_by_id(ids)
-    return render(request, 'core/checkout.html', {'products' : products})
+    return render(request, 'core/checkout.html', {'products': products})
+
 
 @login_required
 def myaccount(request):
     return render(request, 'core/myaccount.html')
+
 
 def start_order(request):
     cart = request.session.get('cart')
@@ -128,17 +181,17 @@ def start_order(request):
         place = request.POST.get('place')
         phone = request.POST.get('phone')
 
-        order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name, email=email, phone=phone, address=address, zipcode=zipcode, place=place)
-        
+        order = Order.objects.create(user=request.user, first_name=first_name, last_name=last_name,
+                                     email=email, phone=phone, address=address, zipcode=zipcode, place=place)
+
         for item in products:
             product = item
-            quantity= cart.get(str(product.id))
+            quantity = cart.get(str(product.id))
             price = product.price * quantity
 
-            
+            item = OrderItem.objects.create(
+                order=order, product=product, price=price, quantity=quantity)
 
-            item = OrderItem.objects.create(order=order, product=product, price=price, quantity=quantity)
- 
         request.session['cart'] = {}
 
         return redirect('myaccount')
@@ -153,18 +206,20 @@ class ProductDetailView(FormMixin, DetailView):
     object = None
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('detail', kwargs = {'pk': self.get_object().id })
-    
+        return reverse_lazy('detail', kwargs={'pk': self.get_object().id})
+
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
-    
+
     def form_valid(self, form):
         self.object = form.save(commit='False')
         self.object.product = self.get_object()
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
+
+

@@ -747,3 +747,45 @@ th {
 .myaccount {
     width: 75%;
 }
+
+.global-container {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card {
+    width: 400px;
+    margin: 20px;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #088a06;
+    border-radius: 0.25rem;
+}
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+
+.card-title {
+    font-size: 25px;
+    line-height: 37px;
+    font-weight: 400;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    display: block;
+}
