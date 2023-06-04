@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -16,8 +17,41 @@ from .forms import  CommentForm, CustomUserCreationForm, CustomUserChangeForm, R
 
 
 class HomeView(View):
-    def get(self, request, *args, **kwargs):
 
+    def post(self , request):
+        product = request.POST.get('product')
+        remove = request.POST.get('remove')
+        cart = request.session.get('cart')
+        if cart:
+            quantity = cart.get(product)
+            if quantity:
+                if remove:
+                    if quantity<=1:
+                        cart.pop(product)
+                    else:
+                        cart[product]  = quantity-1
+                else:
+                    cart[product]  = quantity+1
+
+            else:
+                cart[product] = 1
+        else:
+            cart = {}
+            cart[product] = 1
+
+        request.session['cart'] = cart
+        return redirect('home')
+    
+
+    def get(self , request):
+        # print()
+        return HttpResponseRedirect(f'/{request.get_full_path()[1:]}')
+    
+
+    def get(self, request, *args, **kwargs):
+        cart = request.session.get('cart')
+        if not cart:
+            request.session['cart'] = {}
         products = Product.get_all_products()
         categories = Category.get_all_categories()
         categoryID = 'category'

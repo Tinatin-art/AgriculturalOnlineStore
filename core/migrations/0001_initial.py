@@ -66,39 +66,23 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name='Order',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=20)),
-                ('description', models.CharField(blank=True, default='', max_length=500, null=True, verbose_name='Описание')),
-                ('image', models.ImageField(upload_to='', verbose_name='Рисунок')),
-                ('price', models.IntegerField(default=0, verbose_name='Цена')),
-                ('currency', models.CharField(default='сом', max_length=10, verbose_name='Валюта')),
-                ('productivity', models.CharField(max_length=20, verbose_name='Урожайность')),
-                ('unit', models.IntegerField(default=0, verbose_name='Количество')),
-                ('unitName', models.CharField(choices=[('Грамм', 'Грамм'), ('Кг', 'Кг'), ('Лирт', 'Лирт'), ('Шт', 'Шт')], default='Шт', max_length=50, verbose_name='Единица измерения')),
-                ('category', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, to='core.category', verbose_name='Категория')),
-            ],
-            options={
-                'verbose_name': 'Продукт',
-                'verbose_name_plural': 'Продукты',
-            },
-        ),
-        migrations.CreateModel(
-            name='Rating',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('rating', models.IntegerField(choices=[(1, '1'), (2, '2'), (3, '3'), (4, '4'), (5, '5')])),
+                ('first_name', models.CharField(max_length=255)),
+                ('last_name', models.CharField(max_length=255)),
+                ('email', models.CharField(max_length=255)),
+                ('address', models.CharField(max_length=255)),
+                ('zipcode', models.CharField(max_length=255)),
+                ('place', models.CharField(max_length=255)),
+                ('phone', models.CharField(max_length=255)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.product')),
                 ('user_name', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-                'ordering': ['-created_at'],
-            },
         ),
         migrations.CreateModel(
-            name='Comment',
+            name='Product',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('text', models.TextField(verbose_name='Отзыв')),
@@ -114,5 +98,15 @@ class Migration(migrations.Migration):
                 'ordering': ['-created_on'],
                 'indexes': [models.Index(fields=['created_on'], name='core_commen_created_6224c6_idx')],
             },
+        ),
+        migrations.CreateModel(
+            name='OrderItem',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('price', models.IntegerField()),
+                ('quantity', models.IntegerField(default=1)),
+                ('order', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='core.order')),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='core.product')),
+            ],
         ),
     ]

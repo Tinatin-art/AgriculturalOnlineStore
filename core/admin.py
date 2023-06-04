@@ -4,8 +4,8 @@ from .models import Product, Category, Comment, CustomUser, Order, OrderItem, Ra
 
 
 class AdminProduct(admin.ModelAdmin):
-    list_display = ['name', 'price','category',]
-    list_filter = ('price', 'category')
+    list_display = ['name', 'price','category' ]
+    list_filter = ( 'price', 'category')
     search_fields = ('name', 'category')
 
 
