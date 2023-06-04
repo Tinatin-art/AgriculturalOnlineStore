@@ -21,6 +21,7 @@ from django.core.mail import send_mail
 from django.db.models import Q
 from django.db.models import Avg
 from .models.profile import Profile
+from .models.rating import Rating, RatingForm
 
 class HomeView(View):
 
@@ -244,3 +245,22 @@ def search_list(request):
 
 
 
+
+class RatingCreateView(CreateView):
+    form_class = RatingForm
+    context_object_name = 'user'
+
+    def form_valid(self, form):
+        pk = self.kwargs['pk']
+        product = get_object_or_404(Product, id=pk)
+        rating = form.save(commit=False)
+        rating.user = self.request.user
+        rating.product = product
+        rating.save()
+        product.update_average_rating()  
+        return redirect('detail', pk=pk)
+    
+    def get_rating(self, product):
+        average_rating = Rating.objects.filter(product=product).aggregate(Avg('rating'))['rating__avg']
+        product.average_rating = average_rating
+        product.save()

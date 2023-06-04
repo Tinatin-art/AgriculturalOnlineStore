@@ -33,6 +33,8 @@ class Product(models.Model):
         default=gram,
     )
 
+    average_rating = models.DecimalField('Средний рейтинг', max_digits=2, decimal_places=1, default=5)
+
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
@@ -61,4 +63,12 @@ class Product(models.Model):
     def get_absolute_url(self):
         return f'/detail/{self.id}'
     
+
+    def update_average_rating(self):
+        average_rating = self.rating_set.aggregate(Avg('rating')).get('rating__avg')
+        if average_rating is not None:
+            self.average_rating = round(average_rating, 1)
+        else:
+            self.average_rating = 0
+        self.save()
   
